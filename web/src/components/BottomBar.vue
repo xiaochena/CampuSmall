@@ -1,31 +1,27 @@
 <template>
   <div id="BottomBar">
     <a href="#/home" @click="selectActive('home')">
-      <img v-if="active == 'home'" src="../static/home-active.svg" alt="" />
-      <img v-else src="../static/home.svg" alt="" />
+      <img v-if="active == 'home'" src="../static/home-active.svg" alt />
+      <img v-else src="../static/home.svg" alt />
       <span>首页</span>
     </a>
     <a href="#/share" @click="selectActive('share')">
-      <img v-if="active == 'share'" src="../static/share-active.svg" alt="" />
-      <img v-else src="../static/share.svg" alt="" />
+      <img v-if="active == 'share'" src="../static/share-active.svg" alt />
+      <img v-else src="../static/share.svg" alt />
       <span>分享</span>
     </a>
     <a href="#/buy" @click="selectActive('buy')">
-      <img src="../static/add.svg" alt="" />
+      <img src="../static/add.svg" alt />
       <span>卖闲置</span>
     </a>
     <a href="#/message" @click="selectActive('message')">
-      <img
-        v-if="active == 'message'"
-        src="../static/message-active.svg"
-        alt=""
-      />
-      <img v-else src="../static/message.svg" alt="" />
+      <img v-if="active == 'message'" src="../static/message-active.svg" alt />
+      <img v-else src="../static/message.svg" alt />
       <span>消息</span>
     </a>
     <a href="#/my" @click="selectActive('my')">
-      <img v-if="active == 'my'" src="../static/my-active.svg" alt="" />
-      <img v-else src="../static/my.svg" alt="" />
+      <img v-if="active == 'my'" src="../static/my-active.svg" alt />
+      <img v-else src="../static/my.svg" alt />
       <span>我的</span>
     </a>
   </div>
@@ -58,6 +54,7 @@ export default {
   font-size: 12px;
   line-height: 8px;
   border-top: 1px solid #888;
+  background-color: #fff;
   a {
     flex: 1;
     text-align: center;

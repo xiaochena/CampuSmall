@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <BottomBar />
+    <BottomBar active="home" />
   </div>
 </template>
 
 <script>
-import BottomBar from "./components/BottomBar";
+import BottomBar from "@/components/BottomBar";
 export default {
   name: "App",
   components: { BottomBar }
@@ -15,14 +15,18 @@ export default {
 
 //
 <style scoped lang="scss">
-// #app {
-//   background-color: pink;
-// }
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+}
 </style>
 <style>
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 a {
   text-decoration: none;
