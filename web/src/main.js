@@ -2,6 +2,9 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 
+import "./cube-ui";
+import "amfe-flexible";
+
 Vue.config.productionTip = false;
 
 new Vue({

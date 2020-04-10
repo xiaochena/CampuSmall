@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div class="appContent">
+      <router-view></router-view>
+    </div>
     <BottomBar active="home" />
   </div>
 </template>
@@ -19,7 +21,10 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  
+  .appContent {
+    flex-grow: 1;
+    overflow: hidden;
+  }
 }
 </style>
 <style>

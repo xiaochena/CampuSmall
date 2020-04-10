@@ -7,7 +7,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "amfe-flexible": "^2.2.1",
     "core-js": "^3.6.4",
+    "cube-ui": "~1.12.15",
     "element-ui": "^2.13.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"
@@ -16,7 +18,17 @@
     "@vue/cli-plugin-babel": "^4.2.0",
     "@vue/cli-service": "^4.2.0",
     "node-sass": "^4.13.1",
+    "postcss-px2rem": "^0.3.0",
     "sass-loader": "^8.0.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-cli-plugin-cube-ui": "^0.2.5",
     "vue-template-compiler": "^2.6.11"
+  },
+  "transformModules": {
+    "cube-ui": {
+      "transform": "cube-ui/src/modules/${member}",
+      "kebabCase": true
+    }
   }
 }
