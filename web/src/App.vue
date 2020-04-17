@@ -11,7 +11,12 @@
 import BottomBar from "@/components/BottomBar";
 export default {
   name: "App",
-  components: { BottomBar }
+  components: { BottomBar },
+  created: function() {
+    setTimeout(function() {
+      window.scrollTo(0, 1);
+    }, 0);
+  }
 };
 </script>
 
@@ -21,6 +26,7 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #ecf0f1;
   .appContent {
     flex-grow: 1;
     overflow: hidden;

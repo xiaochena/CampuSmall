@@ -45,10 +45,11 @@ export default {
 
 <style scope lang="scss">
 #BottomBar {
-  // position: absolute;
-  // bottom: 0;
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  height: 45px;
+  height: 8vh;
+  z-index: 99;
   display: flex;
   justify-content: space-between;
   font-size: 12px;

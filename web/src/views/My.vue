@@ -103,7 +103,6 @@
               </div>
             </div>
           </div>
-          <div class="scroll-content"></div>
         </div>
       </cube-scroll>
     </div>
@@ -153,13 +152,13 @@ export default {
     background-color: #ff4544;
   }
   .scroll-list-wrap {
-    height: 100%;
+    height: 100vh;
     z-index: -99;
     .box {
       background-color: #ecf0f1;
-      overflow: hidden;
       .headerBgc {
         position: absolute;
+        top: 0;
         z-index: 1;
         width: 100%;
         height: 200px;

@@ -1,6 +1,52 @@
 <template>
   <div id="buy">
-    Buy
+    
+<div class="information" style="height:250px">
+              <img class="picture" src alt />
+              <div class="description">
+                <p class="describe"></p>
+                <div class="price"></div>
+                <div class="nickname">
+                  <img src alt />
+                  <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="information">
+              <img class="picture" src alt />
+              <div class="description">
+                <p class="describe"></p>
+                <div class="price"></div>
+                <div class="nickname">
+                  <img src alt />
+                  <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="information">
+              <img class="picture" src alt />
+              <div class="description">
+                <p class="describe"></p>
+                <div class="price"></div>
+                <div class="nickname">
+                  <img src alt />
+                  <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="information">
+              <img class="picture" src alt />
+              <div class="description">
+                <p class="describe"></p>
+                <div class="price"></div>
+                <div class="nickname">
+                  <img src alt />
+                  <span></span>
+                </div>
+              </div>
+            </div>
+
+
   </div>
 </template>
 
