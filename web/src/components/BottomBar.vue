@@ -1,6 +1,6 @@
 <template>
   <div id="BottomBar">
-    <a href="#/home" @click="selectActive('home')">
+    <a href="#/home/main" @click="selectActive('home')">
       <img v-if="active == 'home'" src="../static/home-active.svg" alt />
       <img v-else src="../static/home.svg" alt />
       <span>首页</span>
@@ -48,7 +48,7 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 8vh;
+  height: 45px;
   z-index: 99;
   display: flex;
   justify-content: space-between;
