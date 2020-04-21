@@ -1,29 +1,7 @@
 <template>
-  <div id="main">
-    <div class="reward">
-      <div class="title">校园悬赏</div>
-      <div class="rewardContent">
-        <div class="item">
-          <div class="about">
-            <div class="user">
-              <span class="name">小陈啊</span>
-              <span class="price">￥99</span>
-            </div>
-            <div class="message">这里是求助信息呀呀呀呀呀呀呀呀呀呀呀钱钱钱钱钱钱</div>
-          </div>
-          <img src="@/../public/1.jpg" alt />
-        </div>
-        <div class="item">
-          <div class="about">
-            <div class="user">
-              <span class="name">小陈啊</span>
-              <span class="price">￥99</span>
-            </div>
-            <div class="message">这里是求助信息</div>
-          </div>
-          <img src="@/../public/1.jpg" alt />
-        </div>
-      </div>
+  <div id="reward">
+    <div class="carousel">
+      <img src="@/assets/carousel.jpg" alt />
     </div>
     <div class="information">
       <div class="merchandise">
@@ -104,62 +82,24 @@
 
 <script>
 export default {
-  name: "main"
+  name: "reward"
 };
 </script>
 
 <style lang="scss" scoped>
-#main {
-      padding-bottom: 50px;
-  .reward {
-    border-radius: 10px;
-    margin: 10px 10px 0;
-    padding: 10px 10px;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: white;
-    .title {
-      margin-bottom: 10px;
-      color: red;
-    }
-    .rewardContent {
-      display: flex;
-      justify-content: space-between;
-      .item {
-        display: flex;
-        width: 160px;
-        justify-content: space-between;
-
-        .about {
-          display: flex;
-          flex-direction: column;
-          .user {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-          }
-          .message {
-            width: 100px;
-            height: 30px;
-            line-height: 17px;
-            overflow: hidden;
-          }
-        }
-
-        img {
-          width: 50px;
-          height: 50px;
-        }
-      }
+#reward {
+  padding: 10px 10px 50px;
+  .carousel {
+    img {
+      height: 200px;
+      width: 100%;
     }
   }
 
   .information {
     display: flex;
     flex-wrap: wrap;
-    padding: 10px 10px 0;
+    padding: 10px 0 0;
     justify-content: space-between;
     img {
       width: 100%;

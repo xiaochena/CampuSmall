@@ -5,7 +5,7 @@
       <img v-else src="../static/home.svg" alt />
       <span>首页</span>
     </a>
-    <a href="#/share" @click="selectActive('share')">
+    <a href="#/share/myshare" @click="selectActive('share')">
       <img v-if="active == 'share'" src="../static/share-active.svg" alt />
       <img v-else src="../static/share.svg" alt />
       <span>分享</span>

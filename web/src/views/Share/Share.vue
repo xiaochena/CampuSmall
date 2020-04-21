@@ -1,24 +1,23 @@
 <template>
-  <div id="home">
+  <div id="share">
     <div class="backTop"></div>
     <div class="bannerTop fixed" v-show="topShow">
-      <div class="bannerBgc"></div>
+      <!-- <div class="bannerBgc"></div> -->
       <div class="banner">
-        <a href>
-          <img src="@/static/certification.svg" alt />
+        <a class="between" href>
+          <img src="@/static/lately.svg" alt />
         </a>
         <div class="title">
-          <a class="option" href="#/home/attention">关注</a>
-          <a class="option" href="#/home/main">首页</a>
-          <a class="option" href="#/home/reward">悬赏</a>
+          <a class="option" href="#/home/attention">我的</a>
+          <a class="option" href="#/home/main">推荐</a>
         </div>
-        <a href>
-          <img src="@/static/signin.svg" alt />
+        <a class="between" href>
+          <span class="release">发帖子</span>
         </a>
       </div>
-      <div class="search">
-        <!-- <input type="text" /> -->
-      </div>
+      <!-- <div class="search"> -->
+      <!-- <input type="text" /> -->
+      <!-- </div> -->
     </div>
     <div class="scroll-list-wrap">
       <cube-scroll
@@ -29,25 +28,27 @@
       >
         <div class="box">
           <div class="bannerTop">
-            <div class="bannerBgc"></div>
+            <!-- <div class="bannerBgc"></div> -->
             <div class="banner">
-              <a>
-                <img src="@/static/certification.svg" alt />
+              <a class="between" href>
+                <img src="@/static/lately.svg" alt />
               </a>
               <div class="title">
-                <a class="option" href="#/home/attention">关注</a>
-                <a class="option" href="#/home/main">首页</a>
-                <a class="option" href="#/home/reward">悬赏</a>
+                <a class="option" href="#/home/attention">我的</a>
+                <a class="option" href="#/home/main">推荐</a>
               </div>
-              <a>
-                <img src="@/static/signin.svg" alt />
+              <a class="between" href>
+                <span class="release">发帖子</span>
               </a>
             </div>
-            <div class="search">
-              <!-- <input type="text" /> -->
-            </div>
+            <!-- <div class="search"> -->
+            <!-- <input type="text" /> -->
+            <!-- </div> -->
           </div>
+
+          <div class="bannerBgc"></div>
           <router-view></router-view>
+          <div style="height:1000px"></div>
         </div>
       </cube-scroll>
     </div>
@@ -92,7 +93,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-#home {
+#share {
   // background-color: skyblue;
   height: 100%;
   .backTop {
@@ -107,24 +108,32 @@ export default {
     left: 0;
     right: 0;
   }
+  .bannerBgc {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    height: 155px;
+    width: 100%;
+    border-radius: 0 0 100px 100px /0 0 20px 20px;
+    background-color: #ff4544;
+  }
   .bannerTop {
-    padding: 10px 15px 0;
-    .bannerBgc {
-      position: absolute;
-      z-index: 2;
-      top: 0;
-      left: 0;
-      height: 75px;
-      width: 100%;
-      border-radius: 0 0 100px 100px /0 0 20px 20px;
-      background-color: #ff4544;
-    }
+    z-index: 99;
+    background-color: #ff4544;
     .banner {
+      padding: 10px 10px 10px;
       position: relative;
       z-index: 99;
       font-size: 20px;
       display: flex;
       justify-content: space-between;
+      .between {
+        width: 70px;
+      }
+      img {
+        height: 25px;
+      }
       .title {
         display: flex;
         align-items: center;
@@ -133,8 +142,15 @@ export default {
           margin: 0 5px;
         }
       }
-      img {
-        height: 25px;
+      .release {
+        font-size: 15px;
+        text-align: center;
+        padding: 6px 10px;
+        border-radius: 25px;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
     .search {

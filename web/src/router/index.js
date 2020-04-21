@@ -21,16 +21,28 @@ const routes = [
         component: () => import("../views/Home/components/Main.vue"),
       },
       {
-        path: "nearby",
-        name: "nearby",
-        component: () => import("../views/Home/components/Nearby.vue"),
+        path: "reward",
+        name: "rearby",
+        component: () => import("../views/Home/components/Reward.vue"),
       },
     ],
   },
   {
     path: "/share",
     name: "share",
-    component: () => import("../views/Share.vue"),
+    component: () => import("../views/Share/Share.vue"),
+    children: [
+      {
+        path: "myshare",
+        name: "myshare",
+        component: () => import("../views/Share/components/MyShare.vue"),
+      },
+      // {
+      //   path: "main",
+      //   name: "main",
+      //   component: () => import("../views/Home/components/Main.vue"),
+      // },
+    ],
   },
   {
     path: "/buy",
