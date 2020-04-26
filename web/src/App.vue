@@ -23,7 +23,7 @@ export default {
 //
 <style scoped lang="scss">
 #app {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background-color: #ecf0f1;

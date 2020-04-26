@@ -82,13 +82,13 @@
 
 <script>
 export default {
-  name: "reward"
+  name: "Reward"
 };
 </script>
 
 <style lang="scss" scoped>
 #reward {
-  padding: 10px 10px 50px;
+  padding: 10px 10px 0;
   .carousel {
     img {
       height: 200px;

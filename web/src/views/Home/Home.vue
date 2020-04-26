@@ -56,7 +56,7 @@
 
 <script>
 export default {
-  name: "home",
+  name: "Home",
   components: {},
   data() {
     return {
@@ -154,9 +154,10 @@ export default {
   }
   .scroll-list-wrap {
     width: 100vw;
-    height: 100vh;
+    // height: 100vh;
+    height: calc(100vh - 55px);
     .box {
-      // min-height: 600px;
+      margin-bottom: 40px;
       background-color: #ecf0f1;
       display: flex;
       flex-direction: column;

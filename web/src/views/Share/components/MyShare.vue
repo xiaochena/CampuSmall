@@ -1,9 +1,10 @@
 <template>
   <div id="myShare">
     <div class="banner">
-      <div class="header">为你推荐的圈子</div>
+      <div class="header" v-if="false">为你推荐的圈子</div>
+      <div class="header">我加入的圈子 · 10</div>
       <ul class="content">
-        <li class="list">
+        <li class="list" v-for="item in list" :key="item">
           <img src="@/../public/1.jpg" alt />
           <div class="rightSection">
             <div class="about">
@@ -11,19 +12,7 @@
               <div class="number">1946 人在这里</div>
             </div>
             <div class="button">
-              <span>进去看看</span>
-            </div>
-          </div>
-        </li>
-        <li class="list">
-          <img src="@/../public/1.jpg" alt />
-          <div class="rightSection">
-            <div class="about">
-              <div class="description">电脑DIY专区</div>
-              <div class="number">1946 人在这里</div>
-            </div>
-            <div class="button">
-              <span>进去看看</span>
+              <span>关注</span>
             </div>
           </div>
         </li>
@@ -34,7 +23,12 @@
 
 <script>
 export default {
-  name: "myShare"
+  name: "MyShare",
+  data() {
+    return {
+      list: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    };
+  }
 };
 </script>
 
@@ -60,12 +54,12 @@ export default {
         align-items: center;
         img {
           display: block;
-          width: 55px;
-          height: 55px;
+          width: 50px;
+          height: 50px;
           border-radius: 5px;
         }
         .rightSection {
-          height: 75px;
+          height: 70px;
           flex: 1;
           margin-left: 10px;
           font-size: 16px;
@@ -83,7 +77,7 @@ export default {
               font-weight: bold;
             }
             .number {
-              margin: 10px 0 0;
+              margin: 5px 0 0;
               font-size: 14px;
               color: #707070;
             }
@@ -93,24 +87,10 @@ export default {
             font-weight: 600;
             text-align: center;
             border: 1px solid #707070;
-            padding: 8px 10px;
+            padding: 5px 10px;
             border-radius: 50px;
           }
         }
-        // .about {
-        //   flex: 1;
-        //   margin-left: 15px;
-        //   display: flex;
-        //   flex-direction: column;
-        //   justify-content: space-around;
-        //   font-size: 14px;
-        //   color: #515151;
-        //   .description {
-        //     color: #000;
-        //     font-size: 18px;
-        //     font-weight: 600;
-        //   }
-        // }
       }
     }
   }

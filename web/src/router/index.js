@@ -37,11 +37,11 @@ const routes = [
         name: "myshare",
         component: () => import("../views/Share/components/MyShare.vue"),
       },
-      // {
-      //   path: "main",
-      //   name: "main",
-      //   component: () => import("../views/Home/components/Main.vue"),
-      // },
+      {
+        path: "recommend",
+        name: "recommend",
+        component: () => import("../views/Share/components/Recommend.vue"),
+      },
     ],
   },
   {
@@ -52,7 +52,7 @@ const routes = [
   {
     path: "/message",
     name: "message",
-    component: () => import("../views/Message.vue"),
+    component: () => import("../views/Message/Message.vue"),
   },
   {
     path: "/my",

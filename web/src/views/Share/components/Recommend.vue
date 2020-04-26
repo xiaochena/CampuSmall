@@ -1,29 +1,53 @@
 <template>
-  <div id="main">
-    <div class="reward">
-      <div class="title">校园悬赏</div>
-      <div class="rewardContent">
-        <div class="item">
-          <div class="about">
-            <div class="user">
-              <span class="name">小陈啊</span>
-              <span class="price">￥99</span>
-            </div>
-            <div class="message">这里是求助信息呀呀呀呀呀呀呀呀呀呀呀钱钱钱钱钱钱</div>
-          </div>
-          <img src="@/../public/1.jpg" alt />
-        </div>
-        <div class="item">
-          <div class="about">
-            <div class="user">
-              <span class="name">小陈啊</span>
-              <span class="price">￥99</span>
-            </div>
-            <div class="message">这里是求助信息</div>
-          </div>
-          <img src="@/../public/1.jpg" alt />
-        </div>
+  <div id="recommend">
+    <div class="banner">
+      <div class="search">
+        <!-- <input type="text" /> -->
       </div>
+      <ul class="list">
+        <li class="item">
+          <img class="img" src="@/../public/1.jpg" alt />
+          <div class="content">
+            <div class="title">学生党，等价交换</div>
+            <div class="number">1161人</div>
+          </div>
+        </li>
+        <li class="item">
+          <img class="img" src="@/../public/1.jpg" alt />
+          <div class="content">
+            <div class="title">学生党，等价交换</div>
+            <div class="number">1161人</div>
+          </div>
+        </li>
+        <li class="item">
+          <img class="img" src="@/../public/1.jpg" alt />
+          <div class="content">
+            <div class="title">大学生！跳蚤街</div>
+            <div class="number">1161人</div>
+          </div>
+        </li>
+        <li class="item">
+          <img class="img" src="@/../public/1.jpg" alt />
+          <div class="content">
+            <div class="title">玩家国度</div>
+            <div class="number">1161人</div>
+          </div>
+        </li>
+        <li class="item">
+          <img class="img" src="@/../public/1.jpg" alt />
+          <div class="content">
+            <div class="title">刺客信条 · 信仰之跃</div>
+            <div class="number">1161人</div>
+          </div>
+        </li>
+        <li class="item">
+          <img class="img" src="@/../public/1.jpg" alt />
+          <div class="content">
+            <div class="title">刺客信条 · 信仰之跃</div>
+            <div class="number">1161人</div>
+          </div>
+        </li>
+      </ul>
     </div>
     <div class="information">
       <div class="merchandise">
@@ -104,61 +128,69 @@
 
 <script>
 export default {
-  name: "Main"
+  name: "Recommend",
+  data() {
+    return {
+      list: [5, 4, 3, 2, 1]
+    };
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-#main {
-  .reward {
-    border-radius: 10px;
-    margin: 10px 10px 0;
-    padding: 10px 10px;
-    font-size: 12px;
+#recommend {
+  z-index: 99;
+  padding: 10px 10px 50px;
+  .banner {
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 15px 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    background-color: white;
-    .title {
-      margin-bottom: 10px;
-      color: red;
+    .search {
+      background-color: #e6e6e6;
+      width: 100%;
+      height: 30px;
+      border-radius: 30px;
     }
-    .rewardContent {
+    .list {
+      margin-top: 10px;
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      font-size: 16px;
       .item {
         display: flex;
-        width: 160px;
-        justify-content: space-between;
-
-        .about {
+        font-size: 12px;
+        // border: 1px solid black;
+        padding: 0 5px;
+        margin: 5px 0;
+        width: 50%;
+        .img {
+          width: 40px;
+          height: 40px;
+          background-color: pink;
+        }
+        .content {
+          margin-left: 5px;
           display: flex;
           flex-direction: column;
-          .user {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-          }
-          .message {
-            width: 100px;
-            height: 30px;
-            line-height: 17px;
+          justify-content: center;
+          .title {
+            margin-bottom: 5px;
+            width: 106px;
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: clip;
           }
-        }
-
-        img {
-          width: 50px;
-          height: 50px;
         }
       }
     }
   }
 
   .information {
+    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
-    padding: 10px 10px 0;
     justify-content: space-between;
     img {
       width: 100%;

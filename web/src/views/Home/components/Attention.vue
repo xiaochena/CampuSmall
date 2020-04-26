@@ -96,13 +96,13 @@
 
 <script>
 export default {
-  name: "attention"
+  name: "Attention"
 };
 </script>
 
 <style lang="scss" scoped>
 #attention {
-  padding: 10px 10px 50px;
+  padding: 10px 10px 0px;
   .attentionUser {
     padding: 15px 10px 10px;
     border-radius: 10px;

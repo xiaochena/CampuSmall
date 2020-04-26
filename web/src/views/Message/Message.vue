@@ -4,12 +4,9 @@
     <div class="bannerTop fixed" v-show="topShow">
       <!-- <div class="bannerBgc"></div> -->
       <div class="banner">
-        <a class="between" href>
-          <!-- <img src="@/static/lately.svg" alt /> -->
-        </a>
+        <a class="between" href></a>
         <div class="title">
-          <a class="option" href="#/share/myshare">我的</a>
-          <a class="option" href="#/share/recommend">推荐</a>
+          <a class="option" href="#/share/myshare">消息</a>
         </div>
         <a class="between" href>
           <!-- <span class="release"></span> -->
@@ -30,12 +27,9 @@
           <div class="bannerTop">
             <!-- <div class="bannerBgc"></div> -->
             <div class="banner">
-              <a class="between" href>
-                <!-- <img src="@/static/lately.svg" alt /> -->
-              </a>
+              <a class="between" href></a>
               <div class="title">
-                <a class="option" href="#/share/myshare">我的</a>
-                <a class="option" href="#/share/recommend">推荐</a>
+                <a class="option" href="#/share/myshare">消息</a>
               </div>
               <a class="between" href>
                 <!-- <span class="release">发帖子</span> -->
@@ -47,7 +41,41 @@
           </div>
 
           <div class="bannerBgc"></div>
-          <router-view></router-view>
+          <div class="content">
+            <div class="tabControl">
+              <div class="options">
+                <img src="@/static/notice.svg" alt />
+                <span>通知消息</span>
+              </div>
+              <div class="options">
+                <img src="@/static/interaction.svg" alt />
+                <span>互动消息</span>
+              </div>
+            </div>
+            <div class="messageList">
+              <div class="messageItem">
+                <img src="@/../public/1.jpg" alt />
+                <div class="itemRight">
+                  <div class="name">咩咩贝壳</div>
+                  <div class="newMessage">你有一条新消息</div>
+                </div>
+              </div>
+              <div class="messageItem">
+                <img src="@/../public/1.jpg" alt />
+                <div class="itemRight">
+                  <div class="name">咩咩贝壳</div>
+                  <div class="newMessage">你有一条新消息</div>
+                </div>
+              </div>
+              <div class="messageItem">
+                <img src="@/../public/1.jpg" alt />
+                <div class="itemRight">
+                  <div class="name">咩咩贝壳</div>
+                  <div class="newMessage">你有一条新消息</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </cube-scroll>
     </div>
@@ -112,7 +140,7 @@ export default {
     z-index: 2;
     top: 0;
     left: 0;
-    height: 135px;
+    height: 125px;
     width: 100%;
     border-radius: 0 0 100px 100px /0 0 20px 20px;
     background-color: #ff4544;
@@ -171,11 +199,62 @@ export default {
     width: 100vw;
     height: calc(100vh - 55px);
     .box {
-      min-height: calc(100vh + 1px);
+      min-height: calc(100vh - 54px);
       // margin-bottom: 44px;
-      background-color: #ecf0f1;
+      background-color: #fff;
       display: flex;
       flex-direction: column;
+    }
+    .content {
+      z-index: 99;
+      padding: 10px 10px 50px;
+      .tabControl {
+        padding: 10px 10px;
+        display: flex;
+        justify-content: space-around;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 5px 5px -3px #7f8c8d;
+        .options {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          font-size: 16px;
+          img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+          }
+        }
+      }
+      .messageList {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        .messageItem {
+          display: flex;
+          font-size: 18px;
+          padding: 10px;
+          border-bottom: 1px solid #7f8c8d;
+          img {
+            width: 45px;
+            height: 45px;
+            background-color: pink;
+          }
+          .itemRight {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 10px;
+            flex: 1;
+            .newMessage {
+              margin-top: 2px;
+              font-size: 12px;
+              color: #8a8a8a;
+            }
+          }
+        }
+      }
     }
   }
 }
