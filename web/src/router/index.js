@@ -59,6 +59,17 @@ const routes = [
     name: "My",
     component: () => import("../views/My.vue"),
   },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/Login"),
+  },
+  {
+    path: "/verify/:email",
+    name: "Verify",
+    component: () => import("../views/Verify"),
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

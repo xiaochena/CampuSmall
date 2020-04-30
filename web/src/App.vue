@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div class="appContent">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
     <BottomBar active="home" />
   </div>
 </template>

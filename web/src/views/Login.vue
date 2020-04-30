@@ -8,13 +8,14 @@
     </div>
     <div class="content">
       <div class="title">
-        <span>邮箱密码登录</span>
+        <span>邮箱登录</span>
       </div>
-      <form class="input">
-        <input class="email" type="email" placeholder="请输入邮箱" />
-        <input class="password" type="password" placeholder="请输入密码" />
+      <form class="form">
+        <input class="email" v-model="useremail" type="email" placeholder="请输入邮箱" />
+        <input class="password" v-model="password" type="password" placeholder="请输入密码" />
+        <span class="caveat">{{this.message}}</span>
         <div class="hint">未注册的邮箱验证通过后将会自动注册</div>
-        <input type="submit" class="submit" value="登录" />
+        <input type="button" class="submit" value="登录" @click="login" />
         <div class="forget">
           <span>忘记了?</span>
           <a href>找回密码</a>
@@ -26,7 +27,28 @@
 
 <script>
 export default {
-  name: "login"
+  name: "login",
+  data() {
+    return { useremail: "", password: "", message: "" };
+  },
+  methods: {
+    async login() {
+      if (!this.useremail || !this.password) {
+        return (this.message = "账号或密码不能为空");
+      } else {
+        this.message = "";
+      }
+      let res = await this.$http.post("/login", {
+        useremail: this.useremail,
+        passworld: this.password
+      });
+      res = res.data;
+      if (res.status == 2) {
+        this.$router.push(`/verify/${this.useremail}`);
+      }
+      console.log(res);
+    }
+  }
 };
 </script>
 
@@ -35,8 +57,9 @@ export default {
 #login {
   width: 100%;
   height: 100vh;
-  // position: absolute;
-  z-index: 99;
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 100;
   // background-color: skyblue;
   .topBar {
     // background-color: pink;
@@ -57,7 +80,10 @@ export default {
     .title {
       font-size: 20px;
     }
-    .input {
+    .form {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
       input {
         width: 100%;
         height: 40px;
@@ -68,13 +94,18 @@ export default {
       .email {
         margin: 20px 0px 10px;
       }
+      .caveat {
+        margin: 10px 0;
+        font-size: 12px;
+        color: red;
+      }
       .hint {
         font-size: 12px;
         color: #718093;
       }
       .submit {
         margin-top: 20px;
-        background-color: #718093;
+        background-color: #ff4544;
         color: #f5f6fa;
       }
       .forget {

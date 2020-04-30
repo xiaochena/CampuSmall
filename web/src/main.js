@@ -5,9 +5,11 @@ import VueLazyLoad from "vue-lazyload";
 
 import "./cube-ui";
 import "amfe-flexible";
+import http from "./http";
 
 Vue.use(VueLazyLoad);
 Vue.config.productionTip = false;
+Vue.prototype.$http = http;
 
 new Vue({
   router,
