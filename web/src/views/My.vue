@@ -1,16 +1,16 @@
 <template>
   <div id="my">
-    <div class="backTop"></div>
+    <div class="backTop" v-show="login"></div>
     <div class="scroll-list-wrap">
       <cube-scroll ref="scroll" :options="options" @pulling-down="onPullingDown">
-        <div class="box">
+        <div class="box" v-show="login">
           <div class="headerBgc"></div>
           <div class="header">
             <img class="portrait" src="../static/header.svg" alt="头像" />
             <div class="aboutPortrait">
               <div class="member">setsege47</div>
               <div class="nickname">昵称</div>
-              <div class="homepage">个人主页</div>
+              <div class="homepage">个人设置</div>
             </div>
           </div>
           <div class="content">
@@ -24,27 +24,11 @@
               <div></div>
             </div>
             <div class="banner">
-              <header class="headerTxt">卖在校园</header>
+              <header class="headerTxt">乐在校园</header>
               <div class="bannerCont">
                 <div class="option">
                   <img src="../static/release.svg" alt />
                   <span>我发布的 0</span>
-                </div>
-                <div></div>
-                <div class="option">
-                  <img src="../static/sell.svg" alt />
-                  <span>我卖出的 0</span>
-                </div>
-                <div></div>
-                <div class="option"></div>
-              </div>
-            </div>
-            <div class="banner">
-              <header class="headerTxt">买在校园</header>
-              <div class="bannerCont">
-                <div class="option">
-                  <img src="../static/buy.svg" alt />
-                  <span>我买到的 0</span>
                 </div>
                 <div></div>
                 <div class="option">
@@ -53,8 +37,8 @@
                 </div>
                 <div></div>
                 <div class="option">
-                  <img src="../static/label.svg" alt />
-                  <span>我租到的 0</span>
+                  <img src="../static/dianzan.svg" alt />
+                  <span>我喜爱的 0</span>
                 </div>
               </div>
             </div>
@@ -72,8 +56,8 @@
                 </div>
                 <div></div>
                 <div class="option">
-                  <img src="../static/footprint.svg" alt />
-                  <span>我的足迹</span>
+                  <img src="../static/renzheng.svg" alt />
+                  <span>我的认证</span>
                 </div>
                 <div></div>
                 <div class="option">
@@ -114,12 +98,35 @@ export default {
   name: "my",
   data() {
     return {
+      data: "",
       options: {
-        pullDownRefresh: {},
+        pullDownRefresh: {
+          txt: " ",
+          stopTime: 20
+        },
         // pullUpLoad: this.pullUpLoadObj,
         scrollbar: false
-      }
+      },
+      login: false
     };
+  },
+  created: async function() {
+    let res = await this.$http.get("/profile");
+    res = res.data;
+    console.log(res);
+    switch (res.status) {
+      case 0:
+        this.login = false;
+        this.$router.push("/login");
+        break;
+      case 1:
+        this.login = true;
+        this.data = res;
+        console.log(this.data);
+
+      default:
+        break;
+    }
   },
   components: {},
   methods: {

@@ -7,7 +7,13 @@ var app = express();
 // 使用 中间件;
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+    credentials: true,
+    maxAge: "1728000",
+  })
+);
 
 app.use("/web/api", require("./routes/web"));
 

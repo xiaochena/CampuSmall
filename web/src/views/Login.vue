@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <div class="topBar">
-      <span>
+      <span @click="$router.go(-2)">
         <img class="back" src="../static/back.svg" alt />
       </span>
       <span class="help">帮助</span>
@@ -11,7 +11,7 @@
         <span>邮箱登录</span>
       </div>
       <form class="form">
-        <input class="email" v-model="useremail" type="email" placeholder="请输入邮箱" />
+        <input class="email" type="text" v-model="useremail" placeholder="请输入邮箱" />
         <input class="password" v-model="password" type="password" placeholder="请输入密码" />
         <span class="caveat">{{this.message}}</span>
         <div class="hint">未注册的邮箱验证通过后将会自动注册</div>
@@ -43,6 +43,19 @@ export default {
         passworld: this.password
       });
       res = res.data;
+      switch (res.status) {
+        case 0:
+          this.message = "密码错误";
+          console.log("密码错误");
+
+          break;
+        case 1:
+          this.$router.go(-1);
+          break;
+
+        default:
+          break;
+      }
       if (res.status == 2) {
         this.$router.push(`/verify/${this.useremail}`);
       }

@@ -1,7 +1,7 @@
 <template>
   <div id="verify">
     <div class="topBar">
-      <span>
+      <span @click="$router.go(-1)">
         <img class="back" src="../static/back.svg" alt />
       </span>
       <span class="help">帮助</span>
@@ -16,6 +16,7 @@
         <div class="arrange">
           <cube-button type="button" class="submit" @click="login">确定</cube-button>
           <cube-button type="button" class="submit">重新获取验证码</cube-button>
+          <cube-popup type="my-popup" ref="myPopup" @mask-click="maskClick">验证超时，请重新登录</cube-popup>
         </div>
       </form>
     </div>
@@ -32,10 +33,29 @@ export default {
   methods: {
     async login() {
       console.log(this.email);
-      const res = await this.$http.post("/register", {
+      let res = await this.$http.post("/register", {
         captcha: this.captcha,
         email: this.email
       });
+      res = res.data;
+      console.log(res);
+      switch (res.status) {
+        case 0:
+          this.message = "验证码错误，请重新输入";
+          this.captcha = "";
+          break;
+        case 1:
+          this.message = "登陆成功";
+          this.$router.go(-2);
+          break;
+        default:
+          this.$refs["myPopup"].show();
+          break;
+      }
+    },
+    maskClick() {
+      this.$router.go(-1);
+      console.log(111);
     }
   }
 };
