@@ -10,6 +10,14 @@ import BottomBar from "@/components/BottomBar";
 export default {
   name: "App",
   components: { BottomBar },
+  // 监听,当路由发生变化的时候执行
+  watch: {
+    $route(to, from) {
+      if (from.path.includes("verify")) {
+        location.reload();
+      }
+    }
+  },
   created: function() {
     setTimeout(function() {
       window.scrollTo(0, 1);

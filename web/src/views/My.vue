@@ -6,40 +6,37 @@
         <div class="box" v-show="login">
           <div class="headerBgc"></div>
           <div class="header">
-            <img class="portrait" src="../static/header.svg" alt="头像" />
+            <img class="portrait" :src="data.header_img_url" alt="头像" />
             <div class="aboutPortrait">
-              <div class="member">setsege47</div>
-              <div class="nickname">昵称</div>
-              <div class="homepage">个人设置</div>
+              <div class="member">{{data.email && data.email}}</div>
+              <div class="nickname">昵称: {{data.name == null ? "无" : data.name}}</div>
+              <a class="homepage" href="#/setting">个人设置</a>
             </div>
           </div>
           <div class="content">
             <div class="Socializing">
               <div></div>
-              <div>0 超赞</div>
+              <div>{{data.up_me && data.up_me.length}} 超赞</div>
               <div>|</div>
-              <div>0 关注</div>
+              <div>{{data.attention_others && data.attention_others.length}} 关注</div>
               <div>|</div>
-              <div>0 粉丝</div>
+              <div>{{data.attention_me && data.attention_me.length}} 粉丝</div>
               <div></div>
             </div>
             <div class="banner">
-              <header class="headerTxt">乐在校园</header>
+              <header class="headerTxt">逛在校园</header>
               <div class="bannerCont">
                 <div class="option">
                   <img src="../static/release.svg" alt />
-                  <span>我发布的 0</span>
+                  <span>我发布的 {{data.posts && data.posts.length}}</span>
                 </div>
                 <div></div>
                 <div class="option">
                   <img src="../static/collect.svg" alt />
-                  <span>我收藏的 0</span>
+                  <span>我收藏的 {{data.collect && data.collect.length}}</span>
                 </div>
                 <div></div>
-                <div class="option">
-                  <img src="../static/dianzan.svg" alt />
-                  <span>我喜爱的 0</span>
-                </div>
+                <div class="option"></div>
               </div>
             </div>
             <div class="banner">
@@ -113,7 +110,6 @@ export default {
   created: async function() {
     let res = await this.$http.get("/profile");
     res = res.data;
-    console.log(res);
     switch (res.status) {
       case 0:
         this.login = false;
@@ -121,9 +117,8 @@ export default {
         break;
       case 1:
         this.login = true;
-        this.data = res;
+        this.data = res.data;
         console.log(this.data);
-
       default:
         break;
     }
@@ -196,6 +191,7 @@ export default {
             font-size: 13px;
           }
           .homepage {
+            color: black;
             height: 20px;
             width: 70px;
             border-radius: 10px;

@@ -9,7 +9,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: true,
     credentials: true,
     maxAge: "1728000",
   })
@@ -17,6 +17,9 @@ app.use(
 
 app.use("/web/api", require("./routes/web"));
 
+// 静态文件托管
+app.use("/public", express.static(__dirname + "/DB/webpublic"));
+
 app.listen(3000, function () {
-  console.log("启动成功：http://localhost:3000");
+  console.log("启动成功：http://192.168.1.2:3000");
 });

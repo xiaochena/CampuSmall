@@ -10,7 +10,7 @@
       <img v-else src="../static/share.svg" alt />
       <span>分享</span>
     </a>
-    <a href="#/buy" @click="selectActive('buy')">
+    <a href="#/post" @click="selectActive('buy')">
       <img src="../static/add.svg" alt />
       <span>卖闲置</span>
     </a>

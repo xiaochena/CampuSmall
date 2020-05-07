@@ -45,9 +45,9 @@ const routes = [
     ],
   },
   {
-    path: "/buy",
-    name: "buy",
-    component: () => import("../views/Buy.vue"),
+    path: "/post",
+    name: "post",
+    component: () => import("../views/Post.vue"),
   },
   {
     path: "/message",
@@ -67,8 +67,18 @@ const routes = [
   {
     path: "/verify/:email",
     name: "Verify",
-    component: () => import("../views/Verify"),
+    component: () => import("../views/Verify.vue"),
     props: true,
+  },
+  {
+    path: "/setting",
+    name: "Setting",
+    component: () => import("../views/Setting.vue"),
+  },
+  {
+    path: "/certification",
+    name: "Certification",
+    component: () => import("../views/Certification.vue"),
   },
 ];
 

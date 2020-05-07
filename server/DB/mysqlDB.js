@@ -7,6 +7,7 @@ module.exports = (SQL) => {
     user: "root",
     password: "123456", //数据库连接密码
     database: "campusmall", //查询的表名
+    timezone: "Asia/Shanghai&useUnicode=true&characterEncoding=utf8",
   });
 
   connection.connect();

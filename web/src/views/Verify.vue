@@ -15,7 +15,7 @@
         <span class="caveat" v-if="this.message">{{message}}</span>
         <div class="arrange">
           <cube-button type="button" class="submit" @click="login">确定</cube-button>
-          <cube-button type="button" class="submit">重新获取验证码</cube-button>
+          <cube-button type="button" class="submit" @click="getCode">重新获取验证码</cube-button>
           <cube-popup type="my-popup" ref="myPopup" @mask-click="maskClick">验证超时，请重新登录</cube-popup>
         </div>
       </form>
@@ -56,6 +56,10 @@ export default {
     maskClick() {
       this.$router.go(-1);
       console.log(111);
+    },
+    async getCode() {
+      let code = await this.$http.get(`/getcode?email=${this.email}`);
+      console.log(code);
     }
   }
 };
