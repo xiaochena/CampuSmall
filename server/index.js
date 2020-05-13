@@ -19,7 +19,8 @@ app.use("/web/api", require("./routes/web"));
 
 // 静态文件托管
 app.use("/public", express.static(__dirname + "/DB/webpublic"));
+app.use("/post", express.static(__dirname + "/DB/postgoods"));
 
 app.listen(3000, function () {
-  console.log("启动成功：http://192.168.1.2:3000");
+  console.log("启动成功：http://localhost:3000");
 });

@@ -80,6 +80,17 @@ const routes = [
     name: "Certification",
     component: () => import("../views/Certification.vue"),
   },
+  {
+    path: "/myposted",
+    name: "MyPosted",
+    component: () => import("../views/MyPosted.vue"),
+  },
+  {
+    path: "/display/:id",
+    name: "Display",
+    component: () => import("../views/Display.vue"),
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

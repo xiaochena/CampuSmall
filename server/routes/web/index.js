@@ -29,7 +29,7 @@ async function getuserID(req, res, next) {
               FROM users
               WHERE users.email = "${useremial}"
 `;
-  let userID = await JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  let userID = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   userID = userID[0].id;
   req.userID = userID;
   next();
@@ -121,7 +121,7 @@ router.post("/login", async (req, res) => {
     return res.send({ status: 2, message: "该邮箱未注册，跳转输入验证码" });
   }
   // #endregion
-  // #region 第二步：2.2 如果用户存在，判断密码是否相同
+  // #region 第三步：2.2 如果用户存在，判断密码是否相同
   let passworldValid = user[0].passworld == req.body.passworld; // 验证邮箱密码
 
   if (!passworldValid) {
@@ -131,9 +131,9 @@ router.post("/login", async (req, res) => {
     });
   }
   // #endregion
-  // #region 第三步：生成token，并存入cookie
+  // #region 第四步：生成token，并存入cookie
   const token = jwt.sign(user[0].email, CACHE.TOKEN_KEY);
-  res.cookie("token", token, { maxAge: 900000, httpOnly: true });
+  res.cookie("token", token, { maxAge: 9000000, httpOnly: true });
   // #endregion
   res.send({ status: 1, token: token });
 });
@@ -191,7 +191,7 @@ router.get("/profile", getuserID, async (req, res) => {
               FROM users
               WHERE users.id = "${req.userID}"
   `;
-  let userTemp = await JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  let userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   userTemp = userTemp[0];
   let userData = {
     id: userTemp.id,
@@ -226,12 +226,27 @@ router.get("/profile", getuserID, async (req, res) => {
   userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   userData.up_me = userTemp;
   // 查询用户发布的商品
-  SQL = ` SELECT post.post_id
-          FROM post
-          WHERE post.user_id = ${userData.id}
+  SQL = ` SELECT *
+  FROM commodity
+  WHERE commodity.from_id= ${userData.id}
   `;
   userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  for (item of userTemp) {
+    if (item.commodity_img1_url)
+      item.commodity_img1_url = `${config.dev}/post/${item.commodity_img1_url}`;
+    if (item.commodity_img2_url)
+      item.commodity_img2_url = `${config.dev}/post/${item.commodity_img2_url}`;
+    if (item.commodity_img3_url)
+      item.commodity_img3_url = `${config.dev}/post/${item.commodity_img3_url}`;
+    if (item.commodity_img4_url)
+      item.commodity_img4_url = `${config.dev}/post/${item.commodity_img4_url}`;
+    if (item.commodity_img5_url)
+      item.commodity_img5_url = `${config.dev}/post/${item.commodity_img5_url}`;
+    if (item.commodity_img6_url)
+      item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
+  }
   userData.posts = userTemp;
+
   // 查询用户收藏的商品
   SQL = ` SELECT collect.collect_id
           FROM collect
@@ -267,7 +282,7 @@ router.post("/upload", getuserID, upload.single("file"), async (req, res) => {
           SET users.header_img = "${req.file.filename}"
           WHERE id = ${req.userID}`;
 
-  await JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   const file = req.file;
   res.send(file);
 });
@@ -277,7 +292,7 @@ router.put("/putprofile", getuserID, async (req, res) => {
   let SQL = ` UPDATE users 
               SET users.${req.body.field} = "${req.body.name}"
               WHERE id = ${req.userID}`;
-  await JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   res.send({ status: 1, message: "修改成功" });
 });
 // 学生认证
@@ -309,7 +324,7 @@ router.post("/certification", getuserID, async (req, res) => {
   let SQL = ` UPDATE users 
               SET users.certification_url =  "${imageSrc}" , users.certification = "认证中"
               WHERE users.id = ${req.userID}`;
-  await JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   await res.send({ status: 1, test: "上传成功" });
 });
 
@@ -327,11 +342,65 @@ router.post("/certificationapi", getuserID, async (req, res) => {
               WHERE id = ${req.userID}`;
   console.log(SQL);
 
-  await JSON.parse(JSON.stringify(await mysqlDB(SQL)));
-  res.send("test");
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "修改成功" });
 });
 
-router.post("/upload")
+const postgoods = multer({ dest: __dirname + "../../../DB/postgoods" });
+router.post(
+  "/postgoods",
+  getuserID,
+  postgoods.array("file", 6),
+  async (req, res) => {
+    // console.log(req.body.textarea);
+    // console.log(req.files);
+    let column = [];
+    let value = [];
+    for (let file of req.files) {
+      value.push(`,"${file.filename}"`);
+      column.push(`,commodity_img${column.length + 1}_url`);
+    }
+    let SQL = ` INSERT INTO 
+    commodity(from_id,textarea,create_time,price${column.join("")})
+    VALUES (${
+      req.userID
+    },'${req.body.textarea.toString()}',${new Date().getTime()},${
+      req.body.price
+    }${value.join("")});`;
+    JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+    res.send({ status: 1, message: "上传成功" });
+  }
+);
+
+router.get("/getarticle", getuserID, async (req, res) => {
+  console.log(req.query);
+  let SQL = `SELECT * FROM commodity WHERE commodity_id = ${req.query.id}`;
+  let sqlres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  sqlres = sqlres[0];
+  res.send({ status: 1, message: "获取成功", data: sqlres });
+});
+
+router.get("/simple", getuserID, async (req, res) => {
+  let SQL = ` SELECT 
+  id,name,email,header_img,gender,
+  birthday,school,certification
+  FROM users
+  WHERE users.id = "${req.query.id}"
+  `;
+  let userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  userTemp = userTemp[0];
+  let userData = {
+    id: userTemp.id,
+    name: userTemp.name,
+    email: userTemp.email,
+    gender: userTemp.gender,
+    school: userTemp.school,
+    birthday: userTemp.birthday,
+    certification: userTemp.certification,
+    header_img_url: `${config.dev}/public/${userTemp.header_img}`,
+  };
+  res.send({ status: 1, message: "获取成功", data: userData });
+});
 
 router.get("/", async (req, res) => {
   console.log(req.cookies);

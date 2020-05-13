@@ -26,10 +26,10 @@
             <div class="banner">
               <header class="headerTxt">逛在校园</header>
               <div class="bannerCont">
-                <div class="option">
+                <a class="option" href="#/myposted">
                   <img src="../static/release.svg" alt />
                   <span>我发布的 {{data.posts && data.posts.length}}</span>
-                </div>
+                </a>
                 <div></div>
                 <div class="option">
                   <img src="../static/collect.svg" alt />
