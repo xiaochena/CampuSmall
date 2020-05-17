@@ -267,6 +267,7 @@ router.get("/profile", getuserID, async (req, res) => {
     if (item.commodity_img6_url)
       item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
   }
+  console.log(SQL);
   userData.collect = userTemp;
   // #endregion
   res.send({

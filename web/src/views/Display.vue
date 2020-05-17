@@ -22,7 +22,7 @@
             @click.stop="postAttention(data.from_id)"
           >取消关注</span>
           <span
-            v-if="isCollect"
+            v-if="!isCollect"
             class="collect"
             @click.stop="collect(data.commodity_id,data.from_id)"
           >收藏</span>

@@ -36,8 +36,8 @@ export default {
   },
   created: async function() {
     let res = await this.$http.get("/profile");
-    res = res.data;
     console.log(res);
+    res = res.data;
     switch (res.status) {
       case 0:
         this.login = false;
@@ -47,7 +47,6 @@ export default {
         this.login = true;
         this.posts = res.data.collect;
         this.$refs.scroll.refresh();
-        console.log(this.posts);
       default:
         break;
     }
