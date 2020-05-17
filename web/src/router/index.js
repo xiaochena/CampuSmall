@@ -86,6 +86,11 @@ const routes = [
     component: () => import("../views/MyPosted.vue"),
   },
   {
+    path: "/collect",
+    name: "Collect",
+    component: () => import("../views/Collect.vue"),
+  },
+  {
     path: "/display/:id",
     name: "Display",
     component: () => import("../views/Display.vue"),

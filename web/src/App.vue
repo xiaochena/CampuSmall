@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <BottomBar active="home" />
+    <BottomBar active="home"  />
   </div>
 </template>
 

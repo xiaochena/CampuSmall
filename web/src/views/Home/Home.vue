@@ -10,7 +10,6 @@
         <div class="title">
           <a class="option" href="#/home/attention">关注</a>
           <a class="option" href="#/home/main">首页</a>
-          <a class="option" href="#/home/reward">悬赏</a>
         </div>
         <a href>
           <img src="@/static/signin.svg" alt />
@@ -37,7 +36,6 @@
               <div class="title">
                 <a class="option" href="#/home/attention">关注</a>
                 <a class="option" href="#/home/main">首页</a>
-                <a class="option" href="#/home/reward">悬赏</a>
               </div>
               <a>
                 <img src="@/static/signin.svg" alt />

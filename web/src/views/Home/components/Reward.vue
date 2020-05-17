@@ -101,6 +101,11 @@ export default {
     flex-wrap: wrap;
     padding: 10px 0 0;
     justify-content: space-between;
+    .postReward {
+      position: sticky;
+      z-index: 999;
+      bottom: 0;
+    }
     img {
       width: 100%;
       display: block;

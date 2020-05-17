@@ -1,10 +1,10 @@
 <template>
-  <div id="myposted">
+  <div id="collect">
     <div class="topBar">
       <span @click="$router.go(-1)">
         <img class="back" src="../static/back.svg" alt />
       </span>
-      <span class="myProfile">我的帖子</span>
+      <span class="myProfile">我的收藏</span>
     </div>
     <div class="scroll-list-wrap">
       <cube-scroll ref="scroll">
@@ -19,7 +19,6 @@
             <div class="about">
               <div class="title" v-html="item.textarea"></div>
               <div class="price">￥{{item.price}}</div>
-              <div class="delete" @click.stop="deleteArticle(item.commodity_id)">删除</div>
             </div>
           </div>
         </div>
@@ -31,13 +30,14 @@
 
 <script>
 export default {
-  name: "MyPosted",
+  name: "Collect",
   data() {
-    return { posts: {} };
+    return { posts: {}};
   },
   created: async function() {
     let res = await this.$http.get("/profile");
     res = res.data;
+    console.log(res);
     switch (res.status) {
       case 0:
         this.login = false;
@@ -45,7 +45,7 @@ export default {
         break;
       case 1:
         this.login = true;
-        this.posts = res.data.posts;
+        this.posts = res.data.collect;
         this.$refs.scroll.refresh();
         console.log(this.posts);
       default:
@@ -55,23 +55,6 @@ export default {
   methods: {
     click(id) {
       this.$router.push(`/display/${id}`);
-    },
-    async deleteArticle(commodity_id) {
-      console.log(commodity_id);
-
-      let res = await this.$http.delete("/deletearticle", {
-        data: { commodity_id: commodity_id }
-      });
-      res = res.data;
-      switch (res.status) {
-        case 0:
-          this.$router.push("/login");
-          break;
-        case 1:
-          location.reload();
-        default:
-          break;
-      }
     }
   }
 };
@@ -79,7 +62,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-#myposted {
+#collect {
   width: 100vw;
   height: 100vh;
   position: absolute;

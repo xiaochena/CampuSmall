@@ -31,10 +31,10 @@
                   <span>我发布的 {{data.posts && data.posts.length}}</span>
                 </a>
                 <div></div>
-                <div class="option">
+                <a class="option" href="#/collect">
                   <img src="../static/collect.svg" alt />
                   <span>我收藏的 {{data.collect && data.collect.length}}</span>
-                </div>
+                </a>
                 <div></div>
                 <div class="option"></div>
               </div>
@@ -154,7 +154,7 @@ export default {
     background-color: #ff4544;
   }
   .scroll-list-wrap {
-    height: 100vh;
+    height: calc(100vh - 55px);
     z-index: -99;
     .box {
       background-color: #ecf0f1;

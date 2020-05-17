@@ -1,9 +1,17 @@
 <template>
   <div id="main">
     <div class="reward">
-      <div class="title">校园悬赏</div>
+      <!-- <div class="title">校园悬赏</div> -->
       <div class="rewardContent">
-        <div class="item">
+        <cube-slide ref="slide">
+          <cube-slide-item>
+            <img src="../../../../public/AD1.jpg" />
+          </cube-slide-item>
+          <cube-slide-item>
+            <img src="../../../../public/AD2.jpg" />
+          </cube-slide-item>
+        </cube-slide>
+        <!-- <div class="item">
           <div class="about">
             <div class="user">
               <span class="name">小陈啊</span>
@@ -22,79 +30,24 @@
             <div class="message">这里是求助信息</div>
           </div>
           <img src="@/../public/1.jpg" alt />
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="information">
-      <div class="merchandise">
+      <div
+        class="merchandise"
+        v-for="item in data"
+        :key="item.commodity_id"
+        @click="$router.push(`/display/${item.commodity_id}`)"
+      >
         <div class="images">
-          <img src="@/../public/3.jpg" alt="没有图片" />
+          <img :src="item.commodity_img1_url" alt="没有图片" />
         </div>
         <div class="introduction">
-          <p>校园二手物品简介啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</p>
+          <p class="content" v-html="item.textarea"></p>
           <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/2.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
+            <span class="price">￥ {{item.price}}</span>
+            <span class="username">{{item.name}}</span>
           </div>
         </div>
       </div>
@@ -104,7 +57,15 @@
 
 <script>
 export default {
-  name: "Main"
+  name: "Main",
+  data() {
+    return { data: {} };
+  },
+  created: async function() {
+    let res = await this.$http.get("/getgoods");
+    this.data = res.data.data;
+    console.log(this.data);
+  }
 };
 </script>
 
@@ -124,33 +85,9 @@ export default {
       color: red;
     }
     .rewardContent {
-      display: flex;
-      justify-content: space-between;
-      .item {
-        display: flex;
-        width: 160px;
-        justify-content: space-between;
-
-        .about {
-          display: flex;
-          flex-direction: column;
-          .user {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-          }
-          .message {
-            width: 100px;
-            height: 30px;
-            line-height: 17px;
-            overflow: hidden;
-          }
-        }
-
-        img {
-          width: 50px;
-          height: 50px;
-        }
+      width: 100%;
+      img {
+        width: 100%;
       }
     }
   }
@@ -162,6 +99,7 @@ export default {
     justify-content: space-between;
     img {
       width: 100%;
+      object-fit: cover;
       display: block;
     }
     .merchandise {
@@ -172,7 +110,7 @@ export default {
       margin-bottom: 10px;
       font-size: 16px;
       .images {
-        width: 100%;
+        width: 169px;
         height: 170px;
         overflow: hidden;
       }
@@ -190,6 +128,11 @@ export default {
           margin-top: 5px;
           display: flex;
           justify-content: space-between;
+          .username {
+            width: 80px;
+            text-align: right;
+            overflow: hidden;
+          }
           .price {
             color: red;
           }
