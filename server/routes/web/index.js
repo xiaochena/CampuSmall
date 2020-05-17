@@ -205,11 +205,24 @@ router.get("/profile", getuserID, async (req, res) => {
   };
 
   // 查询用户关注的人
-  SQL = ` SELECT attention_others.to_attention_id
-          FROM attention_others
-          WHERE attention_others.user_id = ${userData.id}
+  SQL = ` SELECT
+	users.name,
+	users.header_img,
+	users.id,
+	attentions.create_time 
+FROM
+	attentions,
+	users 
+WHERE
+	from_id =  ${userData.id} 
+	AND to_id = users.id 
+ORDER BY
+	create_time
   `;
   userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  for (item of userTemp) {
+    item.header_img = `${config.dev}/public/${item.header_img}`;
+  }
   userData.attention_others = userTemp;
   // 查询关注用户的人，既粉丝
   SQL = ` SELECT attention_me.from_attention_id
@@ -267,7 +280,6 @@ router.get("/profile", getuserID, async (req, res) => {
     if (item.commodity_img6_url)
       item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
   }
-  console.log(SQL);
   userData.collect = userTemp;
   // #endregion
   res.send({
@@ -521,6 +533,50 @@ ORDER BY
   res.send({ status: 1, message: "成功", data: SQLres });
 });
 
+router.get("/getattengoods", getuserID, async (req, res) => {
+  let SQL;
+  if ((req.query.attention = "all")) {
+    SQL = `SELECT
+  users.name,
+  commodity.commodity_id,
+  commodity.price,
+  commodity.textarea,
+  commodity.create_time,
+  commodity.commodity_img1_url,
+  commodity.commodity_img2_url,
+  commodity.commodity_img3_url,
+  commodity.commodity_img4_url,
+  commodity.commodity_img5_url,
+  commodity.commodity_img6_url
+  FROM
+  attentions,
+  commodity ,
+  users
+  WHERE
+  attentions.from_id = ${req.userID}
+  AND attentions.to_id = commodity.from_id
+  AND users.id = commodity.from_id
+  ORDER BY
+  attentions.create_time DESC`;
+  }
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  for (item of SQLres) {
+    if (item.commodity_img1_url)
+      item.commodity_img1_url = `${config.dev}/post/${item.commodity_img1_url}`;
+    if (item.commodity_img2_url)
+      item.commodity_img2_url = `${config.dev}/post/${item.commodity_img2_url}`;
+    if (item.commodity_img3_url)
+      item.commodity_img3_url = `${config.dev}/post/${item.commodity_img3_url}`;
+    if (item.commodity_img4_url)
+      item.commodity_img4_url = `${config.dev}/post/${item.commodity_img4_url}`;
+    if (item.commodity_img5_url)
+      item.commodity_img5_url = `${config.dev}/post/${item.commodity_img5_url}`;
+    if (item.commodity_img6_url)
+      item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
+  }
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
+
 router.delete("/deletearticle", getuserID, async (req, res) => {
   let SQL = `DELETE FROM commodity WHERE commodity_id = ${req.body.commodity_id}`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
@@ -550,6 +606,11 @@ router.get("/getlike", getuserID, async (req, res) => {
 router.post("/iscollects", getuserID, async (req, res) => {
   let SQL = `SELECT * FROM collects WHERE owner_id = ${req.body.commodity_id} AND from_id = ${req.userID}`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+
+  if (req.userID == req.body.to_id) {
+    res.send({ status: 3, message: "错误", data: false });
+    return;
+  }
   if (!SQLres.length) {
     SQL = `INSERT INTO collects(from_id,to_id,owner_id)
     VALUES(${req.userID},${req.body.to_id},${req.body.commodity_id})`;
@@ -570,7 +631,7 @@ router.get("/getcollects", getuserID, async (req, res) => {
 });
 
 router.get("/getattention", getuserID, async (req, res) => {
-  let SQL = `SELECT * FROM attentions WHERE from_id = ${req.userID}`;
+  let SQL = `SELECT * FROM attentions WHERE from_id = ${req.userID}  AND to_id = ${req.query.from_id} `;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   res.send({ status: 1, message: "成功", data: SQLres.length });
 });
@@ -578,6 +639,12 @@ router.get("/getattention", getuserID, async (req, res) => {
 router.post("/isattentios", getuserID, async (req, res) => {
   let SQL = `SELECT * FROM attentions WHERE to_id = ${req.body.attentios_id} AND from_id = ${req.userID}`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+
+  if (req.userID == req.body.attentios_id) {
+    res.send({ status: 3, message: "错误", data: false });
+    return;
+  }
+
   if (!SQLres.length) {
     SQL = `INSERT INTO attentions(from_id,to_id,create_time)
     VALUES(${req.userID},${req.body.attentios_id},${new Date().getTime()})`;

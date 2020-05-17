@@ -64,7 +64,7 @@ export default {
   created: async function() {
     let res = await this.$http.get("/getgoods");
     this.data = res.data.data;
-    console.log(this.data);
+    console.log(res);
   }
 };
 </script>

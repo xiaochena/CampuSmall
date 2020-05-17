@@ -80,7 +80,6 @@ export default {
       comment: "",
       replayShow: "",
       replay: "",
-      isLike: 0,
       isCollect: 0,
       isAttention: Boolean
     };
@@ -103,19 +102,15 @@ export default {
       }
     });
     this.comment = comment.data.data;
-    let isLike = await this.$http.get("/getlike", {
-      params: {
-        owner_id: this.id
-      }
-    });
-    this.isLike = isLike.data.data;
     let isCollect = await this.$http.get("/getcollects", {
       params: {
         owner_id: this.id
       }
     });
     this.isCollect = isCollect.data.data;
-    let isAttention = await this.$http.get("/getattention");
+    let isAttention = await this.$http.get("/getattention", {
+      params: { from_id: this.data.from_id }
+    });
     this.isAttention = isAttention.data.data;
     console.log(this.isAttention);
 
@@ -185,24 +180,33 @@ export default {
       this.replay = "";
       this.replayShow = null;
     },
-    async like(commodity_id, to_id) {
-      let isLike = await this.$http.post("/islike", {
-        commodity_id: commodity_id,
-        to_id: to_id
-      });
-      this.isLike = isLike.data.data;
-    },
     async collect(commodity_id, to_id) {
       let isCollect = await this.$http.post("/iscollects", {
         commodity_id: commodity_id,
         to_id: to_id
       });
+      if (isCollect.data.status == 3) {
+        const toast = this.$createToast({
+          time: 1000,
+          type: "warn",
+          txt: "不可以收藏自己哦！！！"
+        });
+        toast.show();
+      }
       this.isCollect = isCollect.data.data;
     },
     async postAttention(attentios_id) {
       let isAttention = await this.$http.post("/isattentios", {
         attentios_id: attentios_id
       });
+      if (isAttention.data.status == 3) {
+        const toast = this.$createToast({
+          time: 1000,
+          type: "warn",
+          txt: "不可以关注自己哦！！！"
+        });
+        toast.show();
+      }
       this.isAttention = isAttention.data.data;
     }
   }

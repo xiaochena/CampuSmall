@@ -3,90 +3,22 @@
     <div class="attentionUser">
       <div class="title">关注的人</div>
       <div class="content">
-        <div class="user">
-          <img class="userAvatar" src="@/assets/header.jpeg" alt />
-          <div class="userName">小陈啊啊啊啊啊啊</div>
-        </div>
-        <div class="user">
-          <img class="userAvatar" src="@/assets/header.jpeg" alt />
-          <div class="userName">小陈啊啊啊啊啊啊</div>
-        </div>
-        <div class="user">
-          <img class="userAvatar" src="@/assets/header.jpeg" alt />
-          <div class="userName">小陈啊啊啊啊啊啊</div>
+        <div class="user" v-for="item in attention_others" :key="item.id">
+          <img class="userAvatar" :src="item.header_img" alt />
+          <div class="userName">{{item.name}}</div>
         </div>
       </div>
     </div>
     <div class="information">
-      <div class="merchandise">
+      <div class="merchandise" v-for="item in goods" :key="item.commodity_id">
         <div class="images">
-          <img src="@/../public/3.jpg" alt="没有图片" />
+          <img :src="item.commodity_img1_url" alt="没有图片" />
         </div>
         <div class="introduction">
-          <p>校园二手物品简介啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦</p>
+          <p v-html="item.textarea"></p>
           <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/2.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
-          </div>
-        </div>
-      </div>
-      <div class="merchandise">
-        <div class="images">
-          <img src="@/../public/3.jpg" alt />
-        </div>
-        <div class="introduction">
-          <p>校园二手物品简介</p>
-          <div class="priceUsername">
-            <span class="price">￥99</span>
-            <span class="username">小陈</span>
+            <span class="price">￥ {{item.price}}</span>
+            <span class="username">{{item.name}}</span>
           </div>
         </div>
       </div>
@@ -96,7 +28,32 @@
 
 <script>
 export default {
-  name: "Attention"
+  name: "Attention",
+  data() {
+    return { attention_others: {}, goods: {} };
+  },
+  created: async function() {
+    let res = await this.$http.get("/profile");
+    res = res.data;
+    switch (res.status) {
+      case 0:
+        this.login = false;
+        this.$router.push("/login");
+        break;
+      case 1:
+        this.login = true;
+        this.attention_others = res.data.attention_others;
+        console.log(this.attention_others);
+      default:
+        break;
+    }
+
+    let goods = await this.$http.get("/getattengoods", {
+      params: { attention: "all" }
+    });
+    this.goods = goods.data.data;
+    console.log(this.goods);
+  }
 };
 </script>
 
