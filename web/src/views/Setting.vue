@@ -59,6 +59,12 @@
               <span>{{data.certification || "未认证" }}</span>
             </a>
           </div>
+          <p class="title">操作</p>
+          <div class="banner">
+            <a class="li">
+              <span @click="quit">退出登录</span>
+            </a>
+          </div>
         </div>
       </cube-scroll>
     </div>
@@ -179,6 +185,10 @@ export default {
         field: "birthday"
       });
       this.data.birthday = selectedVal.join("-");
+    },
+    async quit() {
+      await this.$http.put("/quit");
+      this.$router.push("/home/main");
     }
   }
 };

@@ -355,6 +355,12 @@ router.post("/certification", getuserID, async (req, res) => {
   await res.send({ status: 1, test: "上传成功" });
 });
 
+router.put("/quit", async (req, res) => {
+  console.log(req.cookies);
+  res.clearCookie("token");
+  await res.send({ status: 1, message: "成功" });
+});
+
 router.post("/certificationapi", getuserID, async (req, res) => {
   const axios = require("axios");
   let nodeRes = await axios.get(
