@@ -330,8 +330,9 @@ router.post(
   async (req, res) => {
     let certification_img1 = req.files[0].filename;
     let certification_img2 = req.files[1].filename;
-    let SQL = `INSERT INTO certification(card,name,user_id,certification_img1,certification_img2)
+    let SQL = `INSERT INTO certification(card,actual_name,user_id,certification_img1,certification_img2)
     VALUES ('${req.body.idCard}','${req.body.name}',${req.userID},'${certification_img1}','${certification_img2}')`;
+
     JSON.parse(JSON.stringify(await mysqlDB(SQL)));
 
     function GetBirthDay(idCard) {

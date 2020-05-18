@@ -2,7 +2,7 @@
   <div id="setting">
     <div class="scroll-list-wrap">
       <div class="topBar">
-        <span @click="$router.go(-1)">
+        <span @click="$router.push('/my')">
           <img class="back" src="../static/back.svg" alt />
         </span>
         <span class="myProfile">我的资料</span>

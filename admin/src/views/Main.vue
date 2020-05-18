@@ -5,7 +5,7 @@
         <el-menu router default-active="persinfo" class="el-menu-vertical-demo">
           <el-menu-item index="persinfo">
             <i class="el-icon-menu"></i>
-            <span slot="title">用户信息</span>
+            <span slot="title">用户认证</span>
           </el-menu-item>
           <el-menu-item index="2">
             <i class="el-icon-setting"></i>

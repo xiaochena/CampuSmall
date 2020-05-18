@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: "/", redirect: "/login" },
-  { path: "/main", redirect: "/main/persinfo" },
+  { path: "/main", redirect: "/main/certification" },
   {
     path: "/login",
     name: "Login",
@@ -19,9 +19,9 @@ const routes = [
     component: Main,
     children: [
       {
-        path: "persinfo",
-        name: "persinfo",
-        component: () => import("../views/Persinfo.vue"),
+        path: "certification",
+        name: "Certification",
+        component: () => import("../views/Certification.vue"),
       },
     ],
   },
