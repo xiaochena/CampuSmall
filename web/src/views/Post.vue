@@ -67,10 +67,6 @@ export default {
         toast.show();
         return;
       }
-      var formData = new FormData();
-      for (var i = 0; i < this.files.length; i++) {
-        formData.append("file", this.files[i].file);
-      }
       if (!this.textarea || !this.price) {
         const toast = this.$createToast({
           type: "warn",
@@ -80,6 +76,10 @@ export default {
         });
         toast.show();
         return;
+      }
+      var formData = new FormData();
+      for (var i = 0; i < this.files.length; i++) {
+        formData.append("file", this.files[i].file);
       }
       formData.append("textarea", this.textarea);
       formData.append("price", this.price);

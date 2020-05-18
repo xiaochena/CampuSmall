@@ -6,26 +6,11 @@
       </span>
       <span class="myProfile">学生认证</span>
     </div>
-    <form class="form" v-show="!api">
-      <input class="email" type="text" v-model="account" placeholder="请输入习信网账号(手机号/身份证/邮箱)" />
-      <input class="password" v-model="password" type="password" placeholder="请输入密码" />
-      <span class="caveat">{{this.message}}</span>
-      <div class="hint">
-        这里输入的是习信网的账号和密码，而不是该用户的账号和密码
-        <br />我们只会获取学生信息，不会记住学生的习信网账户密码
-      </div>
-      <input type="button" class="submit" value="登录" @click="login" />
-      <div class="forget">
-        <span>不放心?</span>
-        <a @click="api = !api">使用其他方式</a>
-      </div>
-    </form>
-    <form class="form" v-show="api">
+    <form class="form">
       <input class="email" type="text" v-model="idCard" placeholder="请输入身份证" />
-      <input type="button" class="submit" value="确定" @click="loginApi" />
-      <div class="forget">
-        <a @click="api = !api">使用其他方式</a>
-      </div>
+      <span class="hint">请上传本人清晰的身份证正反面照片及学生证相关信息</span>
+      <cube-upload ref="certification" :action="action" :max="4" :auto="false" v-model="files" />
+      <input type="button" class="submit" value="确定" @click="certification" />
     </form>
   </div>
 </template>
@@ -35,58 +20,63 @@ export default {
   name: "Certification",
   data() {
     return {
-      account: "",
-      password: "",
-      message: "",
       idCard: "",
-      api: true
+      files: [],
+      action: {
+        target: this.$http.defaults.baseURL + "/certification",
+        withCredentials: true
+      }
     };
   },
   methods: {
-    async login() {
-      let res = await this.$http.post("/certification", {
-        account: this.account,
-        password: this.password
+    async certification() {
+      //#region
+      // if (this.idCard.length < 18) {
+      //   const toast = this.$createToast({
+      //     type: "warn",
+      //     time: 1000,
+      //     txt: "请上传正确的身份证",
+      //     mask: true
+      //   });
+      //   toast.show();
+      //   return;
+      // }
+      // if (this.files.length < 2) {
+      //   const toast = this.$createToast({
+      //     type: "warn",
+      //     time: 1000,
+      //     txt: "请上传身份证正反面两张",
+      //     mask: true
+      //   });
+      //   toast.show();
+      //   return;
+      // }
+      // #endregion
+      var formData = new FormData();
+      for (var i = 0; i < this.files.length; i++) {
+        formData.append("file", this.files[i].file);
+      }
+      formData.append("idCard", this.idCard);
+      let res = await this.$http.post("/certification", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
       });
       res = res.data;
-      switch (res.status) {
-        case 0:
-          this.$router.push("/login");
-          break;
-        case 1:
-          let toast = this.$createToast({
-            time: 1000,
-            txt: "登录成功，工作人员将会验证信息",
-            onTimeout: () => {
-              this.$router.push("/setting");
-            }
-          });
-          console.log(res);
-        default:
-          break;
-      }
-    },
-    async loginApi() {
-      let res = await this.$http.post("/certificationapi", {
-        idcard: this.idCard
-      });
-      res = res.data;
-      switch (res.status) {
-        case 0:
-          this.$router.push("/login");
-          break;
-        case 1:
-          let toast = this.$createToast({
-            time: 1000,
-            txt: "登录成功，工作人员将会验证信息",
-            onTimeout: () => {
-              this.$router.push("/setting");
-            }
-          });
-          console.log(res);
-        default:
-          break;
-      }
+      // switch (res.status) {
+      //   case 0:
+      //     this.$router.push("/login");
+      //     break;
+      //   case 1:
+      //     let toast = this.$createToast({
+      //       time: 1000,
+      //       txt: "登录成功，工作人员将会验证信息",
+      //       onTimeout: () => {
+      //         this.$router.push("/setting");
+      //       }
+      //     });
+      //     console.log(res);
+      //   default:
+      //     break;
+      // }
     }
   }
 };
@@ -129,17 +119,13 @@ export default {
     .email {
       margin: 20px 0px 10px;
     }
-    .caveat {
-      margin: 10px 0;
-      font-size: 12px;
-      color: red;
-    }
     .hint {
       font-size: 12px;
       color: #718093;
+      margin-bottom: 10px;
     }
     .submit {
-      margin-top: 20px;
+      margin-top: 10px;
       background-color: #ff4544;
       color: #f5f6fa;
     }
@@ -152,5 +138,13 @@ export default {
       }
     }
   }
+}
+</style>
+<style>
+.cube-upload-file-def,
+.cube-upload-btn-def {
+  width: calc(100vw / 2.2);
+  height: calc(100vw / 3.5);
+  margin-left: 0;
 }
 </style>

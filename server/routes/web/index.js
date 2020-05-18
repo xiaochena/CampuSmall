@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
+const axios = require("axios");
 
 const mysqlDB = require("../../DB/mysqlDB");
 const CACHE = require("../../DB/cache");
@@ -323,43 +324,44 @@ router.put("/putprofile", getuserID, async (req, res) => {
   res.send({ status: 1, message: "修改成功" });
 });
 // 学生认证
-router.post("/certification", getuserID, async (req, res) => {
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.goto(
-    "https://account.chsi.com.cn/passport/login?service=https://my.chsi.com.cn/archive/j_spring_cas_security_check"
-  );
-  await page.waitForSelector("#username");
-  await page.type("#username", "15860837398", { delay: 100 });
-  await page.waitForSelector("#password");
-  await page.type("#password", "clg0824", { delay: 100 });
-  await page.waitForSelector("#fm1 > .btn_login");
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: "networkidle0" }),
-    page.click("#fm1 > .btn_login"),
-  ]);
+const certification = multer({ dest: __dirname + "../../../DB/certification" });
+router.post(
+  "/certification",
+  getuserID,
+  certification.array("file", 4),
+  async (req, res) => {
+    if (req.files.length < 4) {
+      res.send({ status: 0, test: "上传图片不够" });
+    }
+    let certification_img1 = req.files[0].filename;
+    let certification_img2 = req.files[1].filename;
+    let certification_img3 = req.files[2].filename;
+    let certification_img4 = req.files[3].filename;
+    let SQL = `INSERT INTO certification(card,user_id,certification_img1,certification_img2,certification_img3,certification_img4)
+    VALUES ('${req.body.idCard}',${req.userID},'${certification_img1}','${certification_img2}','${certification_img3}','${certification_img4}')`;
+    JSON.parse(JSON.stringify(await mysqlDB(SQL)));
 
-  await page.waitForSelector(".login-btn");
-  await page.click(".login-btn");
+    function GetBirthDay(idCard) {
+      var birthday = "";
+      if (idCard != null && idCard != "") {
+        if (idCard.length == 15) {
+          birthday = "19" + idCard.substr(6, 6);
+        } else if (idCard.length == 18) {
+          birthday = idCard.substr(6, 8);
+        }
+        birthday = birthday.replace(/(.{4})(.{2})/, "$1-$2-");
+      }
 
-  await page.waitForSelector(".i-m-top:nth-child(1) > .i-m-r > a:nth-child(3)");
-  await page.click(".i-m-top:nth-child(1) > .i-m-r > a:nth-child(3)");
-
-  await page.waitForSelector(".xjxx-img");
-  const imageSrc = await page.$eval(".xjxx-img", (el) => el.src);
-  await browser.close();
-  let SQL = ` UPDATE users 
-              SET users.certification_url =  "${imageSrc}" , users.certification = "认证中"
-              WHERE users.id = ${req.userID}`;
-  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
-  await res.send({ status: 1, test: "上传成功" });
-});
-
-router.put("/quit", async (req, res) => {
-  console.log(req.cookies);
-  res.clearCookie("token");
-  await res.send({ status: 1, message: "成功" });
-});
+      return birthday;
+    }
+    let birthday = GetBirthDay(req.body.idCard);
+    SQL = `UPDATE users 
+    SET users.birthday = "${birthday}",users.certification = '认证中'
+    WHERE id = ${req.userID};`;
+    JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+    res.send({ status: 1, test: "上传成功" });
+  }
+);
 
 router.post("/certificationapi", getuserID, async (req, res) => {
   const axios = require("axios");
@@ -376,6 +378,11 @@ router.post("/certificationapi", getuserID, async (req, res) => {
 
   JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   res.send({ status: 1, message: "修改成功" });
+});
+
+router.put("/quit", async (req, res) => {
+  res.clearCookie("token");
+  await res.send({ status: 1, message: "成功" });
 });
 
 const postgoods = multer({ dest: __dirname + "../../../DB/postgoods" });
@@ -631,7 +638,6 @@ router.post("/iscollects", getuserID, async (req, res) => {
 router.get("/getcollects", getuserID, async (req, res) => {
   let SQL = `SELECT * FROM collects WHERE owner_id = ${req.query.owner_id} AND from_id = ${req.userID}`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
-  console.log(SQLres);
 
   res.send({ status: 1, message: "成功", data: SQLres.length });
 });
