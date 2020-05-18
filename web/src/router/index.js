@@ -81,6 +81,11 @@ const routes = [
     component: () => import("../views/Certification.vue"),
   },
   {
+    path: "/showmodel",
+    name: "Showmodel",
+    component: () => import("../views/ShowModel.vue"),
+  },
+  {
     path: "/myposted",
     name: "MyPosted",
     component: () => import("../views/MyPosted.vue"),

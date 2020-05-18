@@ -1,15 +1,27 @@
 <template>
   <div id="certification">
     <div class="topBar">
-      <span @click="$router.go(-1)">
+      <span @click="$router.push('/setting')">
         <img class="back" src="../static/back.svg" alt />
       </span>
       <span class="myProfile">学生认证</span>
     </div>
+    <div class="banner">
+      <p>身份认证的好处：</p>
+      <p>1. 发布商品后，获得更快的审核速度</p>
+      <p>2. 在商品列表和详情页显示明显认证标识，让他人对您的商品更放心</p>
+      <p>3. 获得推荐机会等更多好处</p>
+    </div>
     <form class="form">
-      <input class="email" type="text" v-model="idCard" placeholder="请输入身份证" />
-      <span class="hint">请上传本人清晰的身份证正反面照片及学生证相关信息</span>
-      <cube-upload ref="certification" :action="action" :max="4" :auto="false" v-model="files" />
+      <span>姓名</span>
+      <input class="input" type="text" v-model="name" placeholder="填写姓名" />
+      <span>身份证号码</span>
+      <input class="input" type="text" v-model="idCard" placeholder="请输入身份证" />
+      <span class="hint">
+        手持身份证，学生证正面信息页，保证字体清晰
+        <a href="#/showmodel" style="color: #09f;">示范</a>
+      </span>
+      <cube-upload ref="certification" :action="action" :max="2" :auto="false" v-model="files" />
       <input type="button" class="submit" value="确定" @click="certification" />
     </form>
   </div>
@@ -21,6 +33,7 @@ export default {
   data() {
     return {
       idCard: "",
+      name: "",
       files: [],
       action: {
         target: this.$http.defaults.baseURL + "/certification",
@@ -28,55 +41,76 @@ export default {
       }
     };
   },
+  created: async function() {
+    let res = await this.$http.get("/profile");
+    res = res.data;
+    if (
+      res.data.certification == "认证中" ||
+      res.data.certification == "已认证"
+    ) {
+      this.$router.push("/setting");
+    }
+    console.log(res);
+  },
   methods: {
     async certification() {
-      //#region
-      // if (this.idCard.length < 18) {
-      //   const toast = this.$createToast({
-      //     type: "warn",
-      //     time: 1000,
-      //     txt: "请上传正确的身份证",
-      //     mask: true
-      //   });
-      //   toast.show();
-      //   return;
-      // }
-      // if (this.files.length < 2) {
-      //   const toast = this.$createToast({
-      //     type: "warn",
-      //     time: 1000,
-      //     txt: "请上传身份证正反面两张",
-      //     mask: true
-      //   });
-      //   toast.show();
-      //   return;
-      // }
-      // #endregion
+      if (this.name == "") {
+        const toast = this.$createToast({
+          type: "warn",
+          time: 1000,
+          txt: "请输入姓名",
+          mask: true
+        });
+        toast.show();
+        return;
+      }
+      if (this.idCard.length < 18) {
+        const toast = this.$createToast({
+          type: "warn",
+          time: 1000,
+          txt: "请上传正确的身份证",
+          mask: true
+        });
+        toast.show();
+        return;
+      }
+      if (this.files.length < 2) {
+        const toast = this.$createToast({
+          type: "warn",
+          time: 1000,
+          txt: "请上传身份证以及学生证",
+          mask: true
+        });
+        toast.show();
+        return;
+      }
       var formData = new FormData();
       for (var i = 0; i < this.files.length; i++) {
         formData.append("file", this.files[i].file);
       }
       formData.append("idCard", this.idCard);
+      formData.append("name", this.name);
       let res = await this.$http.post("/certification", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       res = res.data;
-      // switch (res.status) {
-      //   case 0:
-      //     this.$router.push("/login");
-      //     break;
-      //   case 1:
-      //     let toast = this.$createToast({
-      //       time: 1000,
-      //       txt: "登录成功，工作人员将会验证信息",
-      //       onTimeout: () => {
-      //         this.$router.push("/setting");
-      //       }
-      //     });
-      //     console.log(res);
-      //   default:
-      //     break;
-      // }
+      switch (res.status) {
+        case 0:
+          this.$router.push("/login");
+          break;
+        case 1:
+          let toast = this.$createToast({
+            time: 1000,
+            txt: "上传成功",
+            onTimeout: () => {
+              this.$router.push("/setting");
+            }
+          });
+          this.$router.push("/setting");
+          console.log(res);
+        default:
+          break;
+      }
     }
   }
 };
@@ -86,8 +120,8 @@ export default {
 #certification {
   width: 100vw;
   height: 100vh;
+  background-color: white;
   position: absolute;
-  background-color: #e6e6e6;
   z-index: 100;
   .topBar {
     background-color: #fff;
@@ -103,7 +137,14 @@ export default {
       margin: 0 auto;
     }
   }
-
+  .banner {
+    margin: 10px;
+    font-size: 13px;
+    padding: 10px;
+    color: #666;
+    background-color: #eeeeee;
+    line-height: 18px;
+  }
   .form {
     padding: 0 10px;
     display: flex;
@@ -116,8 +157,8 @@ export default {
       border: none;
       padding-left: 10px;
     }
-    .email {
-      margin: 20px 0px 10px;
+    .input {
+      margin: 10px 0px 10px;
     }
     .hint {
       font-size: 12px;

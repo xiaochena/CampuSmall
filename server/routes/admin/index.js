@@ -25,9 +25,9 @@ async function getuserID(req, res, next) {
   }
   // #endregion
   // #region 第三步：查询用户id，后面的所有查询都根据id查询
-  let SQL = ` SELECT users.id
-              FROM users
-              WHERE users.email = "${username}"
+  let SQL = ` SELECT *
+              FROM management
+              WHERE management.username = "${username}"
 `;
   let userID = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   userID = userID[0].id;
@@ -36,7 +36,6 @@ async function getuserID(req, res, next) {
 }
 
 router.post("/login", async (req, res) => {
-  console.log("req", req.body);
   let SQL = `SELECT * FROM management WHERE username = '${req.body.user}'`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   console.log("sql", SQLres[0]);
@@ -53,6 +52,12 @@ router.post("/login", async (req, res) => {
   }
 
   res.send("test");
+});
+
+router.get("/persinfo", getuserID, async (req, res) => {
+  let SQL = `SELECT users.name,email,header_img,gender,birthday,school,certification FROM users`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "获取成功", data: SQLres });
 });
 
 router.get("/", async (req, res) => {

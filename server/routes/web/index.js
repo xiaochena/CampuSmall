@@ -326,17 +326,12 @@ const certification = multer({ dest: __dirname + "../../../DB/certification" });
 router.post(
   "/certification",
   getuserID,
-  certification.array("file", 4),
+  certification.array("file", 2),
   async (req, res) => {
-    if (req.files.length < 4) {
-      res.send({ status: 0, test: "上传图片不够" });
-    }
     let certification_img1 = req.files[0].filename;
     let certification_img2 = req.files[1].filename;
-    let certification_img3 = req.files[2].filename;
-    let certification_img4 = req.files[3].filename;
-    let SQL = `INSERT INTO certification(card,user_id,certification_img1,certification_img2,certification_img3,certification_img4)
-    VALUES ('${req.body.idCard}',${req.userID},'${certification_img1}','${certification_img2}','${certification_img3}','${certification_img4}')`;
+    let SQL = `INSERT INTO certification(card,name,user_id,certification_img1,certification_img2)
+    VALUES ('${req.body.idCard}','${req.body.name}',${req.userID},'${certification_img1}','${certification_img2}')`;
     JSON.parse(JSON.stringify(await mysqlDB(SQL)));
 
     function GetBirthDay(idCard) {
