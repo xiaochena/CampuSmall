@@ -16,6 +16,7 @@ app.use(
 );
 
 app.use("/web/api", require("./routes/web"));
+app.use("/web/admin", require("./routes/admin"));
 
 // 静态文件托管
 app.use("/public", express.static(__dirname + "/DB/webpublic"));

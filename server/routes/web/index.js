@@ -1,8 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const puppeteer = require("puppeteer");
-const axios = require("axios");
 
 const mysqlDB = require("../../DB/mysqlDB");
 const CACHE = require("../../DB/cache");
