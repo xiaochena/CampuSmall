@@ -12,7 +12,7 @@
           <a class="option" href="#/share/recommend">推荐</a>
         </div>
         <a class="between" href>
-          <!-- <span class="release"></span> -->
+          <span class="release">发帖子</span>
         </a>
       </div>
       <!-- <div class="search"> -->
@@ -38,7 +38,7 @@
                 <a class="option" href="#/share/recommend">推荐</a>
               </div>
               <a class="between" href>
-                <!-- <span class="release">发帖子</span> -->
+                <span class="release">发帖子</span>
               </a>
             </div>
             <!-- <div class="search"> -->

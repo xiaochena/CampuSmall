@@ -38,6 +38,8 @@ export default {
   created: async function() {
     let res = await this.$http.get("/profile");
     res = res.data;
+    console.log(res);
+
     switch (res.status) {
       case 0:
         this.login = false;

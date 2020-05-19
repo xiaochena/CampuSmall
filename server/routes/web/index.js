@@ -77,7 +77,7 @@ router.post("/register", async (req, res) => {
 // 登录注册
 router.post("/login", async (req, res) => {
   // #region 第一步：验证用户是否已经存在
-  let SQLselect = `SELECT * FROM users where email="${ssreq.body.useremail}"`;
+  let SQLselect = `SELECT * FROM users where email="${req.body.useremail}"`;
   let user = await mysqlDB(SQLselect);
   // #endregion
   // #region 第二步：2.1 如果用户不存在，既查询到的user为空数组
@@ -517,10 +517,11 @@ FROM
 	commodity,
 	users 
 WHERE
-	users.id = commodity.from_id 
+	users.id = commodity.from_id
 ORDER BY
 	create_time DESC`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+
   for (item of SQLres) {
     if (item.commodity_img1_url)
       item.commodity_img1_url = `${config.dev}/post/${item.commodity_img1_url}`;
