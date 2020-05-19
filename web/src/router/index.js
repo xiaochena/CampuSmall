@@ -112,6 +112,12 @@ const routes = [
     component: () => import("../views/SearchList.vue"),
     props: true,
   },
+  {
+    path: "/applyschool",
+    name: "ApplySchool",
+    component: () => import("../views/ApplySchool.vue"),
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

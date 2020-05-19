@@ -57,10 +57,10 @@
                   <span>我的认证</span>
                 </div>
                 <div></div>
-                <div class="option">
-                  <img src="../static/coupon.svg" alt />
-                  <span>我的福利</span>
-                </div>
+                <a class="option" href="/#/applyschool">
+                  <img src="../static/申请.svg" alt />
+                  <span>开通学校</span>
+                </a>
                 <div></div>
                 <div class="option">
                   <img src="../static/regulation.svg" alt />

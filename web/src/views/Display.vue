@@ -4,6 +4,7 @@
       <span @click="$router.go(-1)">
         <img class="back" src="../static/back.svg" alt />
       </span>
+      <span class="myProfile">商品详情</span>
     </div>
     <div class="box">
       <div class="user">
@@ -222,9 +223,7 @@ export default {
     height: calc(100vh - 55px);
   }
   .topBar {
-    background-color: #fff;
-    position: sticky;
-    top: 0;
+    background-color: #ff4544;
     display: flex;
     height: 50px;
     line-height: 50px;
@@ -232,6 +231,9 @@ export default {
     .back {
       position: absolute;
       width: 50px;
+    }
+    .myProfile {
+      margin: 0 auto;
     }
   }
   .box {

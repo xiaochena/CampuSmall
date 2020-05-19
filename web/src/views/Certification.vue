@@ -124,7 +124,7 @@ export default {
   position: absolute;
   z-index: 100;
   .topBar {
-    background-color: #fff;
+    background-color: #ff4544;
     display: flex;
     height: 50px;
     line-height: 50px;
