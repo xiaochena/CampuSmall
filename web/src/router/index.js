@@ -107,9 +107,10 @@ const routes = [
     component: () => import("../views/Search.vue"),
   },
   {
-    path: "/search_list/:id",
+    path: "/search_list/:searchKey",
     name: "SearchList",
     component: () => import("../views/SearchList.vue"),
+    props: true,
   },
 ];
 

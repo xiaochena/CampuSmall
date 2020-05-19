@@ -6,7 +6,12 @@
       </span>
       <span class="myProfile">搜索</span>
     </div>
-    <cube-input class="searchInput" v-model="value" placeholder="搜索关键字">
+    <cube-input
+      class="searchInput"
+      v-model="value"
+      placeholder="搜索关键字"
+      v-on:keyup.enter.native="submit"
+    >
       <div class="prepend" slot="prepend">
         <img src="../static/搜索.svg" alt />
       </div>
@@ -20,6 +25,11 @@ export default {
   name: "Search",
   data() {
     return { value: "" };
+  },
+  methods: {
+    submit() {
+      this.$router.push(`/search_list/${this.value}`);
+    }
   }
 };
 </script>

@@ -52,15 +52,13 @@ router.post("/register", async (req, res) => {
   // #endregion
   // #region 第三步：将用户信息插入数据库,清除缓存
   let SQLinsert = `
-  INSERT INTO users(email,name,passworld)
+  INSERT INTO users(email,name,passworld,header_img,certification)
   VALUES ("${CACHE.captchaPool[req.body.email].useremail}",
   "${CACHE.captchaPool[req.body.email].useremail}",
-  "${CACHE.captchaPool[req.body.email].passworld}")`;
+  "${
+    CACHE.captchaPool[req.body.email].passworld
+  }",'default-header.svg','未认证')`;
   mysqlDB(SQLinsert);
-  let SQLinsert2 = `
-  INSERT INTO userinfo(email)
-  VALUES ("${CACHE.captchaPool[req.body.email].useremail}")`;
-  mysqlDB(SQLinsert2);
   delete CACHE.captchaPool[req.body.useremail];
   let tempTime = CACHE.timeoutPool[req.body.useremail];
   delete CACHE.timeoutPool[req.body.useremail];
@@ -79,7 +77,7 @@ router.post("/register", async (req, res) => {
 // 登录注册
 router.post("/login", async (req, res) => {
   // #region 第一步：验证用户是否已经存在
-  let SQLselect = `SELECT * FROM users where email="${req.body.useremail}"`;
+  let SQLselect = `SELECT * FROM users where email="${ssreq.body.useremail}"`;
   let user = await mysqlDB(SQLselect);
   // #endregion
   // #region 第二步：2.1 如果用户不存在，既查询到的user为空数组
@@ -108,7 +106,7 @@ router.post("/login", async (req, res) => {
     const verify = require("../../nodemailer");
     verify({
       from: "二手校园<lingang_chen@126.com>", // 发送人邮箱
-      to: "1821437315@qq.com", // 接收人邮箱，多个使用数组或用逗号隔开
+      to: `${req.body.useremail}`, // 接收人邮箱，多个使用数组或用逗号隔开
       subject: "二手校园注册验证", // 主题
       html: `<p>尊敬的${req.body.useremail}</p>
               <p>您正在注册校园二手交易平台</p>
@@ -665,6 +663,46 @@ router.post("/isattentios", getuserID, async (req, res) => {
 router.get("/", async (req, res) => {
   console.log(req.cookies);
   res.send("test");
+});
+
+router.get("/getSearchGoods", async (req, res) => {
+  // let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  let SQL = `SELECT
+	commodity.commodity_id,
+	commodity.price,
+	commodity.textarea,
+	commodity.create_time,
+	commodity.commodity_img1_url,
+	commodity.commodity_img2_url,
+	commodity.commodity_img3_url,
+	commodity.commodity_img4_url,
+	commodity.commodity_img5_url,
+	commodity.commodity_img6_url,
+	users.NAME 
+FROM
+	commodity,
+	users 
+WHERE
+	commodity.textarea LIKE '%${req.query.searchKey}%' 
+	AND users.id = commodity.from_id 
+ORDER BY
+	create_time DESC`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  for (item of SQLres) {
+    if (item.commodity_img1_url)
+      item.commodity_img1_url = `${config.dev}/post/${item.commodity_img1_url}`;
+    if (item.commodity_img2_url)
+      item.commodity_img2_url = `${config.dev}/post/${item.commodity_img2_url}`;
+    if (item.commodity_img3_url)
+      item.commodity_img3_url = `${config.dev}/post/${item.commodity_img3_url}`;
+    if (item.commodity_img4_url)
+      item.commodity_img4_url = `${config.dev}/post/${item.commodity_img4_url}`;
+    if (item.commodity_img5_url)
+      item.commodity_img5_url = `${config.dev}/post/${item.commodity_img5_url}`;
+    if (item.commodity_img6_url)
+      item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
+  }
+  res.send({ status: 1, message: "成功", data: SQLres });
 });
 
 module.exports = router;
