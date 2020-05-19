@@ -26,13 +26,7 @@ export default {
       editorOption: {
         theme: "snow",
         modules: {
-          toolbar: [
-            ["italic"],
-            [{ color: [] }],
-            [{ font: [] }],
-            [{ header: 1 }, { header: 2 }],
-            [{ list: "ordered" }]
-          ]
+          toolbar: [["italic"], [{ font: [] }], [{ list: "ordered" }]]
         },
         placeholder: "分享你身边的新鲜事"
       },

@@ -3,16 +3,16 @@
     <div class="banner">
       <div class="header" v-if="false">为你推荐的圈子</div>
       <ul class="content">
-        <li class="list" v-for="item in list" :key="item">
-          <img src="@/../public/1.jpg" alt />
-          <div class="rightSection">
-            <div class="about">
-              <div class="description">电脑DIY专区</div>
-              <div class="number">1946 人在这里</div>
+        <li class="list" v-for="item in data" :key="item.share_id">
+          <div class="info">
+            <div class="header">
+              <img :src="item.header_img" alt />
             </div>
-            <div class="button">
-              <span>关注</span>
-            </div>
+            <span class="userName">{{item.name}}</span>
+          </div>
+          <div class="title" v-html="item.textarea"></div>
+          <div class="mediasWrap">
+            <img :src="item.share_img1_url" alt />
           </div>
         </li>
       </ul>
@@ -25,8 +25,14 @@ export default {
   name: "MyShare",
   data() {
     return {
-      list: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+      list: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+      data: []
     };
+  },
+  created: async function() {
+    let res = await this.$http.get("/getshares");
+    this.data = res.data.data;
+    console.log(this.data);
   }
 };
 </script>
@@ -50,44 +56,45 @@ export default {
       flex-direction: column;
       .list {
         display: flex;
-        align-items: center;
-        img {
-          display: block;
-          width: 50px;
-          height: 50px;
-          border-radius: 5px;
-        }
-        .rightSection {
-          height: 70px;
-          flex: 1;
-          margin-left: 10px;
-          font-size: 16px;
+        flex-direction: column;
+        border-bottom: 4px solid #b5b5b5;
+        padding: 10px 0;
+        .info {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid #515151;
-          .about {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            .description {
-              font-size: 16px;
-              font-weight: bold;
-            }
-            .number {
-              margin: 5px 0 0;
-              font-size: 14px;
-              color: #707070;
+          .userName {
+            font-size: 16px;
+            margin-left: 10px;
+          }
+          .header {
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            overflow: hidden;
+            img {
+              width: 40px;
+              height: 40px;
+              display: block;
+              border-radius: 5px;
             }
           }
-          .button {
-            font-size: 14px;
-            font-weight: 600;
-            text-align: center;
-            border: 1px solid #707070;
-            padding: 5px 10px;
-            border-radius: 50px;
+        }
+        .title {
+          margin-top: 10px;
+          font-size: 16px;
+          letter-spacing: 2px;
+          line-height: 18px;
+        }
+        .mediasWrap {
+          margin-top: 10px;
+          height: 220px;
+          overflow: hidden;
+          img {
+            width: 100%;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
           }
         }
       }

@@ -721,6 +721,7 @@ router.post("/appleSchool", getuserID, async (req, res) => {
   res.send({ status: 4, message: "参数不足" });
 });
 
+// 发布分享
 const share = multer({ dest: __dirname + "../../../DB/share" });
 router.post(
   "/postShare",
@@ -731,7 +732,7 @@ router.post(
     let value = [];
     for (let file of req.files) {
       value.push(`,"${file.filename}"`);
-      column.push(`,commodity_img${column.length + 1}_url`);
+      column.push(`,share_img${column.length + 1}_url`);
     }
     let SQL = ` INSERT INTO 
     shares(from_id,textarea,create_time${column.join("")})
@@ -744,6 +745,49 @@ router.post(
     res.send({ status: 1, message: "上传成功" });
   }
 );
+
+// 获取分享
+router.get("/getshares", getuserID, async (req, res) => {
+  let SQL = `SELECT
+	shares.share_id,
+	shares.textarea,
+	shares.create_time,
+	shares.share_img1_url,
+	shares.share_img2_url,
+	shares.share_img3_url,
+	shares.share_img4_url,
+	shares.share_img5_url,
+	shares.share_img6_url,
+	users.name,
+	users.header_img
+FROM
+shares,
+	users 
+WHERE
+	users.id = shares.from_id
+ORDER BY
+  create_time DESC`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+
+  for (item of SQLres) {
+    if (item.share_img1_url)
+      item.share_img1_url = `${config.dev}/share/${item.share_img1_url}`;
+    if (item.share_img2_url)
+      item.share_img2_url = `${config.dev}/share/${item.share_img2_url}`;
+    if (item.share_img3_url)
+      item.share_img3_url = `${config.dev}/share/${item.share_img3_url}`;
+    if (item.share_img4_url)
+      item.share_img4_url = `${config.dev}/share/${item.share_img4_url}`;
+    if (item.share_img5_url)
+      item.share_img5_url = `${config.dev}/share/${item.share_img5_url}`;
+    if (item.share_img6_url)
+      item.share_img6_url = `${config.dev}/share/${item.share_img6_url}`;
+    if (item.header_img)
+      item.header_img = `${config.dev}/public/${item.header_img}`;
+  }
+
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
 
 router.get("/", async (req, res) => {
   console.log(req.cookies);
