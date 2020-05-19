@@ -661,11 +661,7 @@ router.post("/isattentios", getuserID, async (req, res) => {
   res.send({ status: 1, message: "成功", data: !SQLres.length });
 });
 
-router.get("/", async (req, res) => {
-  console.log(req.cookies);
-  res.send("test");
-});
-
+// 获取搜索关键字商品
 router.get("/getSearchGoods", async (req, res) => {
   // let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   let SQL = `SELECT
@@ -704,6 +700,30 @@ ORDER BY
       item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
   }
   res.send({ status: 1, message: "成功", data: SQLres });
+});
+
+// 申请开通学校
+router.post("/appleSchool", getuserID, async (req, res) => {
+  let SQL = `SELECT * FROM application WHERE application.user_id = ${req.userID}`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  if (SQLres.length != 0) {
+    res.send({ status: 3, message: "申请中" });
+    return;
+  }
+  if (req.body.school && req.body.school && req.body.school) {
+    SQL = `INSERT INTO application(application,user_id,application_user,application.user_phone)
+    VALUES ('${req.body.school}',${req.userID},'${req.body.name}','${req.body.phone}')`;
+    JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+    res.send({ status: 1, message: "申请成功" });
+    return;
+  }
+  console.log("参数不足");
+  res.send({ status: 4, message: "参数不足" });
+});
+
+router.get("/", async (req, res) => {
+  console.log(req.cookies);
+  res.send("test");
 });
 
 module.exports = router;

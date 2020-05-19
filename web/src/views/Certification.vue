@@ -138,6 +138,7 @@ export default {
     }
   }
   .banner {
+    border-radius: 10px;
     margin: 10px;
     font-size: 13px;
     padding: 10px;
