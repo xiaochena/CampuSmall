@@ -101,6 +101,16 @@ const routes = [
     component: () => import("../views/Display.vue"),
     props: true,
   },
+  {
+    path: "/search/",
+    name: "Search",
+    component: () => import("../views/Search.vue"),
+  },
+  {
+    path: "/search_list/:id",
+    name: "SearchList",
+    component: () => import("../views/SearchList.vue"),
+  },
 ];
 
 const router = new VueRouter({

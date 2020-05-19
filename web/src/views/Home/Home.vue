@@ -15,9 +15,13 @@
           <img src="@/static/signin.svg" alt />
         </a>
       </div>
-      <div class="search">
+      <a class="search" href="#/search">
+        <div class="tips">请输入关键字</div>
+        <div class="magnifier">
+          <img src="../../static/搜索.svg" alt />
+        </div>
         <!-- <input type="text" /> -->
-      </div>
+      </a>
     </div>
     <div class="scroll-list-wrap">
       <cube-scroll
@@ -41,9 +45,13 @@
                 <img src="@/static/signin.svg" alt />
               </a>
             </div>
-            <div class="search">
+            <a class="search" href="#/search">
+              <div class="tips">请输入关键字</div>
+              <div class="magnifier">
+                <img src="../../static/搜索.svg" alt />
+              </div>
               <!-- <input type="text" /> -->
-            </div>
+            </a>
           </div>
           <router-view></router-view>
         </div>
@@ -140,14 +148,30 @@ export default {
       z-index: 99;
       background-color: #fff;
       margin-top: 15px;
-      // input {
       box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
       width: 100%;
       height: 30px;
       border: 0;
       outline: none;
       border-radius: 30px;
-      // }
+      display: flex;
+      justify-content: space-between;
+      .tips {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        margin-left: 20px;
+        font-size: 18px;
+      }
+      .magnifier {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        margin-right: 20px;
+        img {
+          height: 80%;
+        }
+      }
     }
   }
   .scroll-list-wrap {
