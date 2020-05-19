@@ -1,6 +1,6 @@
 <template>
-  <div id="attention">
-    <div class="attentionUser">
+  <div id="attention" :class="attention_others.length?'':'none'">
+    <div class="attentionUser" v-if="attention_others.length">
       <div class="title">关注的人</div>
       <div class="content">
         <div class="user" v-for="item in attention_others" :key="item.id">
@@ -58,6 +58,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.none {
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+}
 #attention {
   padding: 10px 10px 0px;
   .attentionUser {

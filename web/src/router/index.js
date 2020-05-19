@@ -123,6 +123,11 @@ const routes = [
     name: "PostShare",
     component: () => import("../views/PostShare.vue"),
   },
+  {
+    path: "/attention",
+    name: "Attention",
+    component: () => import("../views/Attention.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -223,6 +223,8 @@ export default {
     height: calc(100vh - 55px);
   }
   .topBar {
+    position: sticky;
+    top: 0;
     background-color: #ff4544;
     display: flex;
     height: 50px;

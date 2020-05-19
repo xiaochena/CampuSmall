@@ -222,11 +222,26 @@ ORDER BY
   }
   userData.attention_others = userTemp;
   // 查询关注用户的人，既粉丝
-  SQL = ` SELECT attention_me.from_attention_id
-          FROM attention_me
-          WHERE attention_me.user_id = ${userData.id}
+  SQL = `SELECT
+	attentions.create_time,
+	attentions.from_id,
+	attentions.to_id,
+	users.name,
+	users.header_img,
+	users.gender
+FROM
+	attentions,users
+WHERE
+	attentions.to_id = ${userData.id}
+	AND
+	attentions.from_id = users.id
+ORDER BY
+	attentions.create_time DESC;
   `;
   userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  for (item of userTemp) {
+    item.header_img = `${config.dev}/public/${item.header_img}`;
+  }
   userData.attention_me = userTemp;
   // 查询给用户点赞的人
   SQL = ` SELECT *
@@ -782,6 +797,38 @@ ORDER BY
       item.share_img5_url = `${config.dev}/share/${item.share_img5_url}`;
     if (item.share_img6_url)
       item.share_img6_url = `${config.dev}/share/${item.share_img6_url}`;
+    if (item.header_img)
+      item.header_img = `${config.dev}/public/${item.header_img}`;
+  }
+
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
+// 获取分享
+router.get("/getmessage", getuserID, async (req, res) => {
+  let SQL = `SELECT
+	comment.id,
+	comment.owner_id,
+	comment.create_time,
+	comment.content,
+	commodity.commodity_img1_url,
+	users.name,
+  users.header_img
+FROM
+	comment,
+	commodity,
+	users 
+WHERE
+	comment.to_id = 5 
+	AND commodity.commodity_id = comment.owner_id 
+	AND users.id = comment.from_id 
+ORDER BY
+  comment.create_time DESC;`;
+
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+
+  for (item of SQLres) {
+    if (item.commodity_img1_url)
+      item.commodity_img1_url = `${config.dev}/post/${item.commodity_img1_url}`;
     if (item.header_img)
       item.header_img = `${config.dev}/public/${item.header_img}`;
   }

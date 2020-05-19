@@ -53,27 +53,19 @@
               </div>
             </div>
             <div class="messageList">
-              <div class="messageItem">
-                <img src="@/../public/1.jpg" alt />
+              <a
+                class="messageItem"
+                v-for="item in data"
+                :key="item.id"
+                :href="'#/display/'+item.owner_id"
+              >
+                <img :src="item.header_img" alt />
                 <div class="itemRight">
-                  <div class="name">咩咩贝壳</div>
-                  <div class="newMessage">你有一条新消息</div>
+                  <div class="name">{{item.name}} 给您留言了</div>
+                  <div class="newMessage">{{item.content}}</div>
                 </div>
-              </div>
-              <div class="messageItem">
-                <img src="@/../public/1.jpg" alt />
-                <div class="itemRight">
-                  <div class="name">咩咩贝壳</div>
-                  <div class="newMessage">你有一条新消息</div>
-                </div>
-              </div>
-              <div class="messageItem">
-                <img src="@/../public/1.jpg" alt />
-                <div class="itemRight">
-                  <div class="name">咩咩贝壳</div>
-                  <div class="newMessage">你有一条新消息</div>
-                </div>
-              </div>
+                <img :src="item.commodity_img1_url" alt />
+              </a>
             </div>
           </div>
         </div>
@@ -98,6 +90,11 @@ export default {
       data: {},
       col: 2
     };
+  },
+  created: async function() {
+    let res = await this.$http.get("/getmessage");
+    this.data = res.data.data;
+    console.log(this.data);
   },
   methods: {
     onScrollHandle(pos) {
@@ -232,6 +229,7 @@ export default {
         display: flex;
         flex-direction: column;
         .messageItem {
+          color: black;
           display: flex;
           font-size: 18px;
           padding: 10px;

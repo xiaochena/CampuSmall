@@ -20,7 +20,7 @@
               <div>|</div>
               <div>{{data.attention_others && data.attention_others.length}} 关注</div>
               <div>|</div>
-              <div>{{data.attention_me && data.attention_me.length}} 粉丝</div>
+              <a href="#/attention">{{data.attention_me && data.attention_me.length}} 粉丝</a>
               <div></div>
             </div>
             <div class="banner">
@@ -215,6 +215,9 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          a {
+            color: black;
+          }
         }
 
         .banner {
