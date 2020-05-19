@@ -721,6 +721,30 @@ router.post("/appleSchool", getuserID, async (req, res) => {
   res.send({ status: 4, message: "参数不足" });
 });
 
+const share = multer({ dest: __dirname + "../../../DB/share" });
+router.post(
+  "/postShare",
+  getuserID,
+  share.array("file", 6),
+  async (req, res) => {
+    let column = [];
+    let value = [];
+    for (let file of req.files) {
+      value.push(`,"${file.filename}"`);
+      column.push(`,commodity_img${column.length + 1}_url`);
+    }
+    let SQL = ` INSERT INTO 
+    shares(from_id,textarea,create_time${column.join("")})
+    VALUES (${
+      req.userID
+    },'${req.body.textarea.toString()}',${new Date().getTime()}${value.join(
+      ""
+    )});`;
+    JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+    res.send({ status: 1, message: "上传成功" });
+  }
+);
+
 router.get("/", async (req, res) => {
   console.log(req.cookies);
   res.send("test");

@@ -8,8 +8,8 @@
           <!-- <img src="@/static/lately.svg" alt /> -->
         </a>
         <div class="title">
-          <a class="option" href="#/share/myshare">我的</a>
-          <a class="option" href="#/share/recommend">推荐</a>
+          <a class="option" href="#/share/myshare">分享</a>
+          <!-- <a class="option" href="#/share/recommend">推荐</a> -->
         </div>
         <a class="between" href>
           <span class="release">发帖子</span>
@@ -34,10 +34,10 @@
                 <!-- <img src="@/static/lately.svg" alt /> -->
               </a>
               <div class="title">
-                <a class="option" href="#/share/myshare">我的</a>
-                <a class="option" href="#/share/recommend">推荐</a>
+                <a class="option" href="#/share/myshare">分享</a>
+                <!-- <a class="option" href="#/share/recommend">推荐</a> -->
               </div>
-              <a class="between" href>
+              <a class="between" href='#/post_share'>
                 <span class="release">发帖子</span>
               </a>
             </div>

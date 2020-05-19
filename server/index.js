@@ -22,6 +22,7 @@ app.use("/web/admin", require("./routes/admin"));
 app.use("/public", express.static(__dirname + "/DB/webpublic"));
 app.use("/post", express.static(__dirname + "/DB/postgoods"));
 app.use("/certification", express.static(__dirname + "/DB/certification"));
+app.use("/share", express.static(__dirname + "/DB/share"));
 
 app.listen(3000, function () {
   console.log("启动成功：http://localhost:3000");

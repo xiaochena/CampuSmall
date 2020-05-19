@@ -2,7 +2,6 @@
   <div id="myShare">
     <div class="banner">
       <div class="header" v-if="false">为你推荐的圈子</div>
-      <div class="header">我加入的圈子 · 10</div>
       <ul class="content">
         <li class="list" v-for="item in list" :key="item">
           <img src="@/../public/1.jpg" alt />

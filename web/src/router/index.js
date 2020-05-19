@@ -118,6 +118,11 @@ const routes = [
     component: () => import("../views/ApplySchool.vue"),
     props: true,
   },
+  {
+    path: "/post_share",
+    name: "PostShare",
+    component: () => import("../views/PostShare.vue"),
+  },
 ];
 
 const router = new VueRouter({
