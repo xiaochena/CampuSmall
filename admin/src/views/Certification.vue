@@ -1,15 +1,15 @@
 <template>
   <div id="Certification">
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column fixed prop="actual_name" label="认证姓名" width="80"></el-table-column>
+      <el-table-column fixed prop="actual_name" label="认证姓名" ></el-table-column>
       <el-table-column prop="id" label="用户ID" width="80"></el-table-column>
-      <el-table-column prop="header_img" label="用户头像" width="80">
+      <el-table-column prop="header_img" label="用户头像" >
         <template slot-scope="scope">
           <img :src="scope.row.header_img" alt style="width: 50px;height: 50px" />
         </template>
       </el-table-column>
-      <el-table-column prop="birthday" label="用户生日" width="150"></el-table-column>
-      <el-table-column prop="certification_img1" label="认证图片一" width="150">
+      <el-table-column prop="birthday" label="用户生日" ></el-table-column>
+      <el-table-column prop="certification_img1" label="认证图片一" >
         <template slot-scope="scope">
           <el-image
             style="width: 100px; height: 100px"
@@ -18,7 +18,7 @@
           ></el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="certification_img2" label="认证图片二" width="150">
+      <el-table-column prop="certification_img2" label="认证图片二" >
         <template slot-scope="scope">
           <el-image
             style="width: 100px; height: 100px"
@@ -27,7 +27,7 @@
           ></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" >
         <template slot-scope="scope">
           <div>
             <el-button size="mini" type="danger" @click="passClick(scope.row)">通过</el-button>
@@ -70,9 +70,6 @@ export default {
         default:
           break;
       }
-    },
-    handleClick(row) {
-      console.log(row);
     },
     async passClick(row) {
       let res = await this.$http.put("/isCertification", {

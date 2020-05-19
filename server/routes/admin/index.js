@@ -90,6 +90,82 @@ router.put("/isCertification", getuserID, async (req, res) => {
   res.send({ status: 1, message: "成功" });
 });
 
+// 获取申请学校的两位用户的信息
+router.get("/getApplySchool", getuserID, async (req, res) => {
+  let SQL = `SELECT
+    application.application,
+    application.id,
+  	application.application_user,
+  	application.user_phone,
+  	application.user_id,
+  	users.name,
+    users.certification
+  FROM
+  	application,
+  	users
+  WHERE
+  	application.user_id = users.id`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  SQL = `SELECT
+application.application,
+count(application.application) as count FROM application 
+GROUP BY
+application.application`;
+  let SQLschool = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  for (schoolItem of SQLschool) {
+    for (item of SQLres) {
+      if (schoolItem.application == item.application) {
+        schoolItem.id = item.id;
+        schoolItem.certification = item.certification;
+        schoolItem.application_user = item.application_user;
+        schoolItem.user_phone = item.user_phone;
+        schoolItem.user_id = item.user_id;
+        schoolItem.name = item.name;
+        if (schoolItem.count > 1) {
+          schoolItem.hasChildren = true;
+        }
+        break;
+      }
+    }
+  }
+
+  res.send({ status: 1, message: "成功", data: SQLschool });
+});
+
+// 获取学校的所以申请人
+router.get("/getSchoolDetails", getuserID, async (req, res) => {
+  let SQL = `SELECT
+  application.id,
+	application.application,
+	application.application_user,
+	application.user_phone,
+	application.user_id,
+	users.name,
+	users.certification 
+FROM
+	application,
+	users 
+WHERE
+	application.user_id = users.id 
+  AND application.application = '${req.query.schoolName}'
+	AND application.id != ${req.query.firstUserID}`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
+
+router.post("/isSchoolPass", getuserID, async (req, res) => {
+  console.log(req.body);
+  if (req.body.isPass) {
+    let SQL = `INSERT INTO community(community_name,create_time) VALUES ("${
+      req.body.school
+    }",${new Date().getTime()})`;
+    JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  }
+  let SQL = `DELETE FROM application WHERE application = '${req.body.school}'`;
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "成功" });
+});
+
 router.get("/", async (req, res) => {
   console.log(req.cookies);
   res.send("test");

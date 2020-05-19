@@ -4,7 +4,7 @@
       <span @click="$router.push('/my')">
         <img class="back" src="../static/back.svg" alt />
       </span>
-      <span class="myProfile">开通学校</span>
+      <span class="myProfile">开通社交圈</span>
     </div>
     <div class="banner">
       <p>提示：</p>
@@ -71,7 +71,7 @@ export default {
           let correct = this.$createToast({
             type: "correct",
             time: 2000,
-            txt: "申请成功，通过后将会邮件通知您",
+            txt: "申请成功，通过后可搜索加入圈子",
             mask: true,
             $events: {
               timeout: () => {

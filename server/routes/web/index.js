@@ -167,7 +167,7 @@ router.get("/getcode", async (req, res) => {
   const verify = require("../../nodemailer");
   verify({
     from: "二手校园<lingang_chen@126.com>", // 发送人邮箱
-    to: "1821437315@qq.com", // 接收人邮箱，多个使用数组或用逗号隔开
+    to: `${req.body.useremail}`, // 接收人邮箱，多个使用数组或用逗号隔开
     subject: "二手校园注册验证", // 主题
     html: `<p>尊敬的${req.query.email}</p>
               <p>您正在注册校园二手交易平台</p>
