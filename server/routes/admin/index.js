@@ -166,6 +166,54 @@ router.post("/isSchoolPass", getuserID, async (req, res) => {
   res.send({ status: 1, message: "成功" });
 });
 
+router.get("/getGoods", async (req, res) => {
+  let SQL = `SELECT
+	commodity.commodity_id,
+	commodity.price,
+	commodity.textarea,
+	commodity.create_time,
+	commodity.commodity_img1_url,
+	commodity.commodity_img2_url,
+	commodity.commodity_img3_url,
+	commodity.commodity_img4_url,
+	commodity.commodity_img5_url,
+	commodity.commodity_img6_url,
+  users.name,
+  users.school
+FROM
+	commodity,
+	users 
+WHERE
+  users.id = commodity.from_id
+  AND
+  commodity.follow = 1
+ORDER BY
+	create_time DESC`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+
+  for (item of SQLres) {
+    if (item.commodity_img1_url)
+      item.commodity_img1_url = `${config.dev}/post/${item.commodity_img1_url}`;
+    if (item.commodity_img2_url)
+      item.commodity_img2_url = `${config.dev}/post/${item.commodity_img2_url}`;
+    if (item.commodity_img3_url)
+      item.commodity_img3_url = `${config.dev}/post/${item.commodity_img3_url}`;
+    if (item.commodity_img4_url)
+      item.commodity_img4_url = `${config.dev}/post/${item.commodity_img4_url}`;
+    if (item.commodity_img5_url)
+      item.commodity_img5_url = `${config.dev}/post/${item.commodity_img5_url}`;
+    if (item.commodity_img6_url)
+      item.commodity_img6_url = `${config.dev}/post/${item.commodity_img6_url}`;
+  }
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
+// 封禁
+router.post("/isFollow", async (req, res) => {
+  let SQL = `UPDATE commodity SET commodity.follow = 0 WHERE commodity.commodity_id = ${req.body.commodity_id}`;
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "成功" });
+});
+
 router.get("/", async (req, res) => {
   console.log(req.cookies);
   res.send("test");

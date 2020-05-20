@@ -9,7 +9,11 @@
           </el-menu-item>
           <el-menu-item index="applyschool">
             <i class="el-icon-s-check"></i>
-            <span slot="title">圈子申请</span>
+            <span slot="title">学校申请</span>
+          </el-menu-item>
+          <el-menu-item index="goods">
+            <i class="el-icon-s-check"></i>
+            <span slot="title">商品审核申请</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
