@@ -1,7 +1,7 @@
 <template>
   <div id="searchlist">
     <div class="topBar">
-      <span class="back" @click="$router.push('/home/main')">
+      <span class="back" @click="$router.go('-1')">
         <img src="../static/back.svg" alt />
       </span>
       <span class="myProfile">
@@ -9,14 +9,22 @@
           class="searchInput"
           v-model="value"
           placeholder="搜索关键字"
-          v-on:keyup.enter.native="getGoods(searchKey)"
+          v-on:keyup.enter.native="update(value)"
         ></cube-input>
       </span>
-      <!-- <div class="sort">
-        <span>时间</span>
-        <span>价格</span>
-        <span>点击量</span>
-      </div>-->
+    </div>
+    <div class="sort">
+      <span @click="sortWayFun('create_time')">
+        时间
+        <img src="../static/上.svg" alt v-if="this.sortWay == true && this.sort == 'create_time'" />
+        <img src="../static/下.svg" alt v-if="this.sortWay == false && this.sort == 'create_time'" />
+        <span></span>
+      </span>
+      <span @click="sortWayFun('price')">
+        价格
+        <img src="../static/上.svg" alt v-if="this.sortWay == true && this.sort == 'price'" />
+        <img src="../static/下.svg" alt v-if="this.sortWay == false && this.sort == 'price'" />
+      </span>
     </div>
     <div class="scroll-list-wrap">
       <cube-scroll ref="scroll">
@@ -53,21 +61,33 @@ export default {
   data() {
     return {
       value: "",
-      goods: ""
+      goods: "",
+      sort: "create_time",
+      sortWay: true
     };
   },
   created: async function() {
     this.value = this.searchKey;
-    await this.getGoods();
+    await this.getGoods(this.value, this.sort, this.sortWay);
   },
   methods: {
-    async getGoods(searchKey) {
+    async getGoods(searchKey, sort, sortWay) {
       let res = await this.$http.get("/getSearchGoods", {
         params: {
-          searchKey: this.searchKey
+          searchKey: searchKey,
+          sort: sort,
+          sortWay: sortWay
         }
       });
       this.goods = res.data.data;
+    },
+    update(searchKey) {
+      this.getGoods(this.value, this.sort, this.sortWay);
+    },
+    sortWayFun(Way) {
+      this.sort = Way;
+      this.sortWay = !this.sortWay;
+      this.getGoods(this.value, this.sort, this.sortWay);
     }
   }
 };
@@ -119,6 +139,16 @@ export default {
           height: 60%;
         }
       }
+    }
+  }
+  .sort {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 40px;
+    background-color: #fff;
+    font-size: 14px;
+    img {
+      width: 10px;
     }
   }
   .scroll-list-wrap {

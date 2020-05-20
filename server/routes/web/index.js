@@ -679,6 +679,11 @@ router.post("/isattentios", getuserID, async (req, res) => {
 // 获取搜索关键字商品
 router.get("/getSearchGoods", async (req, res) => {
   // let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  if (req.query.sortWay == "false") {
+    req.query.sortWay = "ASC";
+  } else {
+    req.query.sortWay = "DESC";
+  }
   let SQL = `SELECT
 	commodity.commodity_id,
 	commodity.price,
@@ -698,7 +703,8 @@ WHERE
 	commodity.textarea LIKE '%${req.query.searchKey}%' 
 	AND users.id = commodity.from_id 
 ORDER BY
-	create_time DESC`;
+  ${req.query.sort} ${req.query.sortWay}`;
+
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   for (item of SQLres) {
     if (item.commodity_img1_url)
