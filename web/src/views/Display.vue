@@ -61,6 +61,13 @@
                 @click="!replayShow ? replayShow=item.id: replayShow==item.id? replayShow='':replayShow=item.id"
               >{{replayShow == item.id ? "取消":"回复"}}</cube-button>
             </div>
+            <div class="commentLi" v-if="item.replace">
+              <img class="header" :src="item.replace.header_img" alt />
+              <div class="about">
+                <div class="name">{{item.replace.name}} 回复 {{item.name}}</div>
+                <div class="content">{{item.replace.content}}</div>
+              </div>
+            </div>
             <div v-if="replayShow == item.id">
               <cube-textarea v-model="replay" placeholder="请在这里留言"></cube-textarea>
               <cube-button class="button" @click="postReplay(item)" type="submit" :primary="true">确认</cube-button>
@@ -348,12 +355,12 @@ export default {
           }
           .replyButton {
             padding: 0;
-            margin-top: 10px;
+            margin-top: 5px;
             border-radius: 5px;
             position: absolute;
             right: 10px;
-            width: 50px;
-            height: 30px;
+            width: 45px;
+            height: 25px;
           }
         }
       }
