@@ -879,7 +879,7 @@ FROM
 	commodity,
 	users 
 WHERE
-	comment.to_id = 5 
+	comment.to_id = ${req.userID} 
 	AND commodity.commodity_id = comment.owner_id 
 	AND users.id = comment.from_id 
 ORDER BY
@@ -898,7 +898,7 @@ ORDER BY
 });
 // 获取问题商品
 router.get("/getWarnGoods", getuserID, async (req, res) => {
-  let SQL = `SELECT * FROM commodity WHERE commodity.follow = 0`;
+  let SQL = `SELECT * FROM commodity WHERE commodity.follow = 0 AND commodity.from_id = ${req.userID}`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   res.send({ status: 1, message: "成功", data: SQLres });
 });
