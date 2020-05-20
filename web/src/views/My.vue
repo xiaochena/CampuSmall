@@ -47,15 +47,15 @@
                   <span>我的帖子</span>
                 </div>
                 <div></div>
-                <div class="option">
+                <a class="option" href="#/setting">
                   <img src="../static/circle.svg" alt />
-                  <span>我的圈子</span>
-                </div>
+                  <span>我的学校</span>
+                </a>
                 <div></div>
-                <div class="option">
+                <a class="option" href="#/certification">
                   <img src="../static/renzheng.svg" alt />
                   <span>我的认证</span>
-                </div>
+                </a>
                 <div></div>
                 <a class="option" href="/#/applyschool">
                   <img src="../static/申请.svg" alt />

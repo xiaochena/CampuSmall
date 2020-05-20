@@ -48,7 +48,16 @@ export default {
       res.data.certification == "认证中" ||
       res.data.certification == "已认证"
     ) {
-      this.$router.push("/setting");
+      const toast = this.$createToast({
+        type: "warn",
+        time: 1000,
+        txt: "您已认证或正在认证中，请勿重复认证",
+        mask: true,
+        onTimeout: () => {
+          this.$router.go(-1);
+        }
+      });
+      toast.show();
     }
     console.log(res);
   },

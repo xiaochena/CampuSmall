@@ -10,7 +10,7 @@
     <div class="textarea">
       <quill-editor v-model="textarea" ref="myQuillEditor" :options="editorOption"></quill-editor>
       <!-- <cube-textarea v-model="textarea" placeholder="新旧程度，入手渠道，转手原因" width="500px" :maxlength="800"></cube-textarea> -->
-      <cube-upload ref="postgoods" :action="action" :max="6" :auto="false" v-model="files" />
+      <cube-upload ref="postgoods" :action="action" :max="1" :auto="false" v-model="files" />
     </div>
   </div>
 </template>
@@ -143,9 +143,15 @@ export default {
   }
   .cube-upload-file-def,
   .cube-upload-btn-def {
-    width: calc(100vw / 3.5);
-    height: calc(100vw / 3.5);
+    width: 80vw;
+    height: 40vw;
     margin-left: 0;
+  }
+
+  .cube-upload-def {
+    display: flex;
+    justify-content: center;
+    margin: 0;
   }
 }
 </style>
