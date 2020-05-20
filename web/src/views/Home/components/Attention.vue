@@ -10,7 +10,12 @@
       </div>
     </div>
     <div class="information">
-      <div class="merchandise" v-for="item in goods" :key="item.commodity_id">
+      <div
+        class="merchandise"
+        v-for="item in goods"
+        :key="item.commodity_id"
+        @click="$router.push(`/display/${item.commodity_id}`)"
+      >
         <div class="images">
           <img :src="item.commodity_img1_url" alt="没有图片" />
         </div>
@@ -19,6 +24,10 @@
           <div class="priceUsername">
             <span class="price">￥ {{item.price}}</span>
             <span class="username">{{item.name}}</span>
+          </div>
+          <div class="priceUsername">
+            <span class="price">学校：</span>
+            <span class="schoolName">{{item.school || '未认证'}}</span>
           </div>
         </div>
       </div>
@@ -35,6 +44,7 @@ export default {
   created: async function() {
     let res = await this.$http.get("/profile");
     res = res.data;
+
     switch (res.status) {
       case 0:
         this.login = false;
@@ -43,7 +53,6 @@ export default {
       case 1:
         this.login = true;
         this.attention_others = res.data.attention_others;
-        console.log(this.attention_others);
       default:
         break;
     }
@@ -107,6 +116,11 @@ export default {
     justify-content: space-between;
     img {
       width: 100%;
+      min-height: 100%;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: block;
     }
     .merchandise {
@@ -137,6 +151,17 @@ export default {
           justify-content: space-between;
           .price {
             color: red;
+          }
+          .username {
+            width: 80px;
+            text-align: right;
+            overflow: hidden;
+          }
+          .schoolName {
+            width: 100px;
+            text-align: right;
+            height: 16px;
+            overflow: hidden;
           }
         }
       }

@@ -49,6 +49,10 @@
             <span class="price">￥ {{item.price}}</span>
             <span class="username">{{item.name}}</span>
           </div>
+          <div class="priceUsername">
+            <span class="price">学校：</span>
+            <span class="schoolName">{{item.school || '未认证'}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -64,7 +68,7 @@ export default {
   created: async function() {
     let res = await this.$http.get("/getgoods");
     this.data = res.data.data;
-    console.log(res);
+    console.log(this.data);
   }
 };
 </script>
@@ -99,7 +103,11 @@ export default {
     justify-content: space-between;
     img {
       width: 100%;
-      object-fit: cover;
+      min-height: 100%;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: block;
     }
     .merchandise {
@@ -130,11 +138,18 @@ export default {
           justify-content: space-between;
           .username {
             width: 80px;
+            height: 16px;
             text-align: right;
             overflow: hidden;
           }
           .price {
             color: red;
+          }
+          .schoolName {
+            width: 100px;
+            text-align: right;
+            height: 16px;
+            overflow: hidden;
           }
         }
       }

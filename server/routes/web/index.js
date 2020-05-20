@@ -572,7 +572,8 @@ router.get("/getgoods", async (req, res) => {
 	commodity.commodity_img4_url,
 	commodity.commodity_img5_url,
 	commodity.commodity_img6_url,
-	users.name
+  users.name,
+  users.school
 FROM
 	commodity,
 	users 
@@ -604,6 +605,7 @@ router.get("/getattengoods", getuserID, async (req, res) => {
   if ((req.query.attention = "all")) {
     SQL = `SELECT
   users.name,
+  users.school,
   commodity.commodity_id,
   commodity.price,
   commodity.textarea,

@@ -10,7 +10,10 @@
       <div class="user">
         <img :src="userdata.header_img_url" alt />
         <div class="about">
-          <div class="name">{{userdata.name}}</div>
+          <div class="name">
+            {{userdata.name}} *
+            <span class="schoolName">{{userdata.school || '未认证'}}</span>
+          </div>
           <div class="price">￥{{data.price}}</div>
         </div>
       </div>
@@ -247,6 +250,14 @@ export default {
       font-size: 16px;
       border-bottom: 1px solid #b5b5b5;
       align-items: center;
+
+      .schoolName {
+        width: 100px;
+        text-align: right;
+        height: 16px;
+        overflow: hidden;
+        color: #ff4544;
+      }
       img {
         object-fit: cover;
         width: 40px;
