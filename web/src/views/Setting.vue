@@ -47,7 +47,7 @@
               <span>生日</span>
               <span class="message">{{data.birthday}}</span>
             </div>
-            <div class="li">
+            <div class="li" @click="selectSchool">
               <span>学校</span>
               <span class="message">{{data.school}}</span>
             </div>
@@ -82,6 +82,7 @@ export default {
     return {
       nameValue: "",
       nameShow: true,
+      school: {},
       data: {},
       files: [],
       options: {},
@@ -92,20 +93,26 @@ export default {
     };
   },
   created: async function name(params) {
-    let res = await this.$http.get("/profile");
-    res = res.data;
-    switch (res.status) {
-      case 0:
-        this.$router.push("/my");
-        break;
-      case 1:
-        this.data = res.data;
-        this.nameValue = this.data.name;
-      default:
-        break;
-    }
+    await this.getData();
   },
   methods: {
+    async getData() {
+      let res = await this.$http.get("/profile");
+      res = res.data;
+      let school = await this.$http.get("/getSchool");
+      school = school.data;
+      this.school = school.data;
+      switch (res.status) {
+        case 0:
+          this.$router.push("/my");
+          break;
+        case 1:
+          this.data = res.data;
+          this.nameValue = this.data.name;
+        default:
+          break;
+      }
+    },
     filesAdded(files) {
       let toast = this.$createToast({
         txt: "Loading...",
@@ -179,12 +186,70 @@ export default {
       });
       datePicker.show();
     },
-    putBirthday(date, selectedVal, selectedIndex, selectedText) {
-      this.$http.put("/putprofile", {
+    async putBirthday(date, selectedVal, selectedIndex, selectedText) {
+      let res = await this.$http.put("/putprofile", {
         name: selectedVal.join("-"),
         field: "birthday"
       });
+      console.log(res);
+      if (res.data.status == 3) {
+        const toast = this.$createToast({
+          type: "warn",
+          time: 2000,
+          txt: "认证中及已认证用户无法修改出生",
+          mask: true
+        });
+        toast.show();
+        return;
+      }
       this.data.birthday = selectedVal.join("-");
+    },
+    selectSchool() {
+      const toast = this.$createToast({
+        time: 2000,
+        txt: "注意！！！一年只能选择一次学校",
+        type: "warn",
+        mask: true
+      });
+      toast.show();
+      for (let item of this.school) {
+        item.text = item.community_name;
+        item.value = item.community_name;
+      }
+      let school = this.$createPicker({
+        title: "学校",
+        data: [this.school],
+        onSelect: this.putSchool
+      });
+      school.show();
+    },
+    async putSchool(date, selectedVal, selectedIndex, selectedText) {
+      console.log(date.join("-"));
+      let res = await this.$http.put("/putSchool", {
+        school: date.join("-")
+      });
+      res = res.data;
+      if (res.status == 3) {
+        const toast = this.$createToast({
+          time: 1000,
+          txt: "修改失败，一年只能选择一次学校",
+          type: "warn",
+          mask: true
+        });
+        toast.show();
+        return;
+      }
+      if (res.status == 4) {
+        const toast = this.$createToast({
+          time: 1000,
+          txt: "未认证用户无法选择学校",
+          type: "warn",
+          mask: true
+        });
+        toast.show();
+        return;
+      }
+      await this.getData();
     },
     async quit() {
       await this.$http.put("/quit");

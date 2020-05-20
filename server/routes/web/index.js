@@ -328,11 +328,56 @@ router.post("/upload", getuserID, upload.single("file"), async (req, res) => {
 
 // 修改其他相关信息
 router.put("/putprofile", getuserID, async (req, res) => {
+  let Selectsql = `SELECT certification FROM users WHERE users.id = ${req.userID}`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(Selectsql)));
+  if (
+    SQLres[0].certification == "已认证" ||
+    SQLres[0].certification == "认证中"
+  ) {
+    if (req.body.field == "birthday") {
+      res.send({ status: 3, message: "认证用户无法修改" });
+      return;
+    }
+  }
   let SQL = ` UPDATE users 
               SET users.${req.body.field} = "${req.body.name}"
               WHERE id = ${req.userID}`;
   JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   res.send({ status: 1, message: "修改成功" });
+});
+// 查询学校
+router.get("/getSchool", getuserID, async (req, res) => {
+  let SQL = `SELECT * FROM community`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
+// 选择学校
+router.put("/putSchool", getuserID, async (req, res) => {
+  let SQL = `SELECT
+	users.school,
+	users.school_time,
+	users.certification
+FROM
+	users
+	WHERE users.id = ${req.userID}`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  if (SQLres[0].school) {
+    if (new Date().getTime() - SQLres[0].school_time < 31536000000) {
+      res.send({ status: 3, message: "失败" });
+      return;
+    }
+  }
+  if (SQLres[0].certification != "已认证") {
+    res.send({ status: 4, message: "未认证" });
+    return;
+  }
+  SQL = `
+  UPDATE users SET users.school = '${
+    req.body.school
+  }',users.school_time = ${new Date().getTime()}
+  WHERE users.id = ${req.userID}`;
+  JSON.parse(JSON.stringify(await mysqlDB(SQL)));
+  res.send({ status: 1, message: "成功" });
 });
 // 学生认证
 const certification = multer({ dest: __dirname + "../../../DB/certification" });

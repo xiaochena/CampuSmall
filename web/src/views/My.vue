@@ -59,7 +59,7 @@
                 <div></div>
                 <a class="option" href="/#/applyschool">
                   <img src="../static/申请.svg" alt />
-                  <span>开通圈子</span>
+                  <span>申请学校</span>
                 </a>
                 <div></div>
                 <div class="option">
