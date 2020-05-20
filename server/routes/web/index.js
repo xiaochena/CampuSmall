@@ -255,6 +255,13 @@ ORDER BY
   FROM commodity
   WHERE commodity.from_id= ${userData.id}
   `;
+  if (req.query.anotherDo == "postWarn") {
+    SQL = ` SELECT *
+  FROM commodity
+  WHERE commodity.from_id= ${userData.id} 
+    AND commodity.follow = 0
+  `;
+  }
   userTemp = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   for (item of userTemp) {
     if (item.commodity_img1_url)
@@ -578,7 +585,8 @@ FROM
 	commodity,
 	users 
 WHERE
-	users.id = commodity.from_id
+  users.id = commodity.from_id
+  AND commodity.follow = 1
 ORDER BY
 	create_time DESC`;
   let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
@@ -856,7 +864,7 @@ ORDER BY
 
   res.send({ status: 1, message: "成功", data: SQLres });
 });
-// 获取分享
+// 获取评论通知
 router.get("/getmessage", getuserID, async (req, res) => {
   let SQL = `SELECT
 	comment.id,
@@ -886,6 +894,12 @@ ORDER BY
       item.header_img = `${config.dev}/public/${item.header_img}`;
   }
 
+  res.send({ status: 1, message: "成功", data: SQLres });
+});
+// 获取问题商品
+router.get("/getWarnGoods", getuserID, async (req, res) => {
+  let SQL = `SELECT * FROM commodity WHERE commodity.follow = 0`;
+  let SQLres = JSON.parse(JSON.stringify(await mysqlDB(SQL)));
   res.send({ status: 1, message: "成功", data: SQLres });
 });
 

@@ -43,13 +43,13 @@
           <div class="bannerBgc"></div>
           <div class="content">
             <div class="tabControl">
-              <div class="options">
+              <a class="options" href="#/mypostedwarn">
                 <img src="@/static/notice.svg" alt />
-                <span>通知消息</span>
-              </div>
+                <span>通知消息 * {{this.warn.length}}</span>
+              </a>
               <div class="options">
                 <img src="@/static/interaction.svg" alt />
-                <span>互动消息</span>
+                <span>校园资讯</span>
               </div>
             </div>
             <div class="messageList">
@@ -88,13 +88,24 @@ export default {
       },
       topShow: false,
       data: {},
-      col: 2
+      col: 2,
+      warn: []
     };
   },
   created: async function() {
     let res = await this.$http.get("/getmessage");
-    this.data = res.data.data;
-    console.log(this.data);
+    res = res.data;
+    switch (res.status) {
+      case 0:
+        this.$router.push("/login");
+        break;
+      case 1:
+        this.data = res.data;
+      default:
+        break;
+    }
+    let warn = await this.$http.get("/getWarnGoods");
+    this.warn = warn.data.data;
   },
   methods: {
     onScrollHandle(pos) {
@@ -213,6 +224,7 @@ export default {
         border-radius: 10px;
         box-shadow: 0px 5px 5px -3px #7f8c8d;
         .options {
+          color: black;
           display: flex;
           flex-direction: column;
           align-items: center;

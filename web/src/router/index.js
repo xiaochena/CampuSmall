@@ -128,6 +128,11 @@ const routes = [
     name: "Attention",
     component: () => import("../views/Attention.vue"),
   },
+  {
+    path: "/mypostedwarn",
+    name: "MyPostedWarn",
+    component: () => import("../views/MyPostedWarn.vue"),
+  },
 ];
 
 const router = new VueRouter({
