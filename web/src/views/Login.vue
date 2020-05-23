@@ -17,8 +17,8 @@
         <div class="hint">未注册的邮箱验证通过后将会自动注册</div>
         <input type="button" class="submit" value="登录" @click="login" />
         <div class="forget">
-          <span>忘记了?</span>
-          <a href>找回密码</a>
+          <!-- <span>忘记了?</span>
+          <a href>找回密码</a> -->
         </div>
       </form>
     </div>
