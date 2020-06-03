@@ -7,6 +7,8 @@
 ```
 cd admic
 
+npm install
+
 node index.js 
 // 或者
 nodemon index.js
@@ -16,6 +18,7 @@ nodemon index.js
 
 ```
 cd web
+npm install
 npm run server
 ```
 
